@@ -1,0 +1,48 @@
+<div class="my-5">
+  <div class="my-2">
+    <p class="text-center">
+      Il y'a <span class="font-weight-bold"> {{ allSenegaleseData.length }}</span> utilisateurs de github localisés au
+      Sénégal
+    </p>
+  </div>
+  <mat-tab-group
+    (selectedTabChange)="changeTab($event)"
+    mat-stretch-tabs
+    mat-align-tabs="center"
+    [(selectedIndex)]="this.currentTab"
+    [dynamicHeight]="true"
+    backgroundColor="primary"
+  >
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <div class="row">
+      <div class="col">
+        <mat-tab label="Total de commits">
+          <app-users-table
+            *ngIf="currentTab === 0"
+            [displayedColumns]="displayedColumns"
+            [dataSource]="dataSource"
+          ></app-users-table>
+        </mat-tab>
+      </div>
+      <div class="col">
+        <mat-tab label="Total de contributions">
+          <app-users-table
+            *ngIf="currentTab === 1"
+            [displayedColumns]="displayedColumns"
+            [dataSource]="dataSource"
+          ></app-users-table>
+        </mat-tab>
+      </div>
+
+      <div class="col">
+        <mat-tab label="Total de contributons (publique + privé)">
+          <app-users-table
+            *ngIf="currentTab === 2"
+            [displayedColumns]="displayedColumns"
+            [dataSource]="dataSource"
+          ></app-users-table>
+        </mat-tab>
+      </div>
+    </div>
+  </mat-tab-group>
+</div>

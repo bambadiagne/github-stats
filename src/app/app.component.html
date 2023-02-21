@@ -1,33 +1,33 @@
-<div class="container-fluid">
-  <mat-toolbar color="primary">
+<div class="container-xl">
+  <mat-toolbar class="container-fluid w-100" color="primary">
     <mat-toolbar-row>
       <button mat-icon-button>
         <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
       </button>
-      <h1>Github Stats</h1>
+      <h1 class="d-none d-lg-block">Github Stats</h1>
       <span class="menu-spacer"></span>
-      <div>
-        <a mat-button [routerLink]="'/accounts'">Senegal contributions</a>
-        <a mat-button [routerLink]="'/create-account'">World Wide</a>
+      <div class="d-none d-lg-block">
+        <a mat-button [routerLink]="'/users/senegal'">Senegal contributions</a>
+        <a mat-button [routerLink]="'/users/global'">World Wide</a>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-sidenav-container class="bg-body">
     <mat-sidenav #sidenav>
       <mat-nav-list>
-        <a mat-list-item [routerLink]="'/accounts'">Senegal contributions </a>
-        <a mat-list-item [routerLink]="'/create-account'">World Wide </a>
+        <a mat-list-item [routerLink]="'/users/senegal'">Senegal contributions </a>
+        <a mat-list-item [routerLink]="'/users/global'">World Wide </a>
       </mat-nav-list>
     </mat-sidenav>
 
-    <a mat-list-item [routerLink]="'/accounts'">Senegal contributions</a>
-    <a mat-list-item [routerLink]="'/create-account'">World Wide</a>
+    <a mat-list-item [routerLink]="'/users/senegal'">Senegal contributions</a>
+    <a mat-list-item [routerLink]="'/users/global'">World Wide</a>
 
     <mat-sidenav-content>
-      <div class="container h-100 my-5">
+      <div class="my-5">
         <div class="jumbotron border rounded p-5 shadow-lg my-5">
           <h1 class="display-4">Bienvenue,cher visiteur!</h1>
-          <p class="lead">
+          <p class="lead text-reduce">
             Github Users Stats est une application qui vous permet par exemple de savoir qui utilise un certain langage
             (go, python, java,...), récupérer tous les utilisateurs d'un lieu pour votre ensemble de données par
             exemple, il peut aussi aider les recruteurs...
@@ -39,25 +39,9 @@
               ><img src="https://img.shields.io/github/stars/bambadiagne/github-user-stats?style=social" alt=""
             /></a>
           </p>
-          <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </div>
-        <div>
-          <mat-tab-group backgroundColor="primary" dynamicHeight>
-            <div class="row">
-              <div class="col">
-                <mat-tab label="Total de commits"></mat-tab>
-              </div>
-              <div class="col">
-                <mat-tab label="Total de contributions"></mat-tab>
-              </div>
-
-              <div class="col">
-                <mat-tab label="Total de contributons (publique + privé)">Content 2</mat-tab>
-              </div>
-            </div>
-          </mat-tab-group>
         </div>
       </div>
+      <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

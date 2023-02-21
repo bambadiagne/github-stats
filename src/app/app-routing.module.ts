@@ -1,7 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SingleUserComponent } from './users/single-user/single-user.component';
+import { UsersGlobalComponent } from './users/users-global/users-global.component';
+import { UsersSenegalComponent } from './users/users-senegal/users-senegal.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'users',
+    children: [
+      { path: 'senegal', component: UsersSenegalComponent },
+      { path: '', component: UsersGlobalComponent },
+      { path: ':produitId', component: SingleUserComponent }
+    ]
+  },
+  {
+    path: '**',
+    redirectTo: '/users/senegal'
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

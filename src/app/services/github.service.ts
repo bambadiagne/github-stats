@@ -15,7 +15,7 @@ export class GithubService {
   constructor(private http: HttpClient) {}
 
   public async obtenirContributionsSenegal() {
-    await this.appelerServiceContributions().subscribe(
+    this.appelerServiceContributions().subscribe(
       (reponse: UserContributions[]) => {
         if (reponse) {
           this.retourListeUsers$.next(reponse);

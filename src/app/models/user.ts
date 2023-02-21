@@ -6,6 +6,7 @@ export interface User {
   bio?: string;
   login: string;
   name?: string;
+  location?: string;
   createdAt?: string;
 }
 export interface SingleUser extends User {

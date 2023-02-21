@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { UserContributions } from './models/user';
-import { GithubService } from './services/github.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Subscription } from 'rxjs';
+import { UserContributions } from 'src/app/models/user';
+import { GithubService } from 'src/app/services/github.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-users-senegal',
+  templateUrl: './users-senegal.component.html',
+  styleUrls: ['./users-senegal.component.css']
 })
-export class AppComponent {
+export class UsersSenegalComponent implements OnInit {
   private abonnements: Subscription[] = [];
   public currentTab = 0;
   public isLoading = true;
@@ -33,7 +33,6 @@ export class AppComponent {
       }
     });
   }
-
   public changeTab(e: MatTabChangeEvent) {
     this.isLoading = true;
     switch (this.currentTab) {
