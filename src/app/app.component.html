@@ -8,7 +8,7 @@
       <span class="menu-spacer"></span>
       <div class="d-none d-lg-block">
         <a mat-button [routerLink]="'/users/senegal'">Senegal contributions</a>
-        <a mat-button [routerLink]="'/users/global'">World Wide</a>
+        <a mat-button [routerLink]="'/users'">World Wide</a>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
@@ -16,12 +16,12 @@
     <mat-sidenav #sidenav>
       <mat-nav-list>
         <a mat-list-item [routerLink]="'/users/senegal'">Senegal contributions </a>
-        <a mat-list-item [routerLink]="'/users/global'">World Wide </a>
+        <a mat-list-item [routerLink]="'/users'">World Wide </a>
       </mat-nav-list>
     </mat-sidenav>
 
     <a mat-list-item [routerLink]="'/users/senegal'">Senegal contributions</a>
-    <a mat-list-item [routerLink]="'/users/global'">World Wide</a>
+    <a mat-list-item [routerLink]="'/users'">World Wide</a>
 
     <mat-sidenav-content>
       <div class="my-5">

@@ -8,9 +8,10 @@ import { SingleUser, User, UserContributions } from '../models/user';
 })
 export class GithubService {
   public retourListeUsers$: Subject<any[]> = new Subject();
+  public retourListeSearch$: Subject<any> = new Subject();
   public retourDetailUser$: Subject<any> = new Subject();
   public route = 'http://localhost:5000/users';
-  public query = new Map();
+  public query: Map<string, string[]> = new Map<string, string[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -29,13 +30,14 @@ export class GithubService {
     );
   }
 
-  public filtrer(query: Map<string, string>) {
+  public filtrer(query: Map<string, string[]>) {
     this.updateQuery(query);
-    this.appelerServiceListe().subscribe((reponse: User[]) => {
+
+    this.appelerServiceListe().subscribe((reponse: any) => {
       if (reponse) {
-        this.retourListeUsers$.next(reponse);
+        this.retourListeSearch$.next(reponse);
       } else {
-        this.retourListeUsers$.next([]);
+        this.retourListeSearch$.next([]);
       }
     });
   }
@@ -50,7 +52,7 @@ export class GithubService {
     });
   }
   private appelerServiceListe(): Observable<User[] | any> {
-    return this.http.get<any[]>(`${this.route}/search${this.genererQueryString()}`);
+    return this.http.get<any[]>(`${this.route}/search${this.genererQueryString(this.query)}`);
   }
 
   private appelerServiceContributions(): Observable<UserContributions[]> {
@@ -60,19 +62,33 @@ export class GithubService {
     return this.http.get<any>(`${this.route}/${login}`);
   }
 
-  private genererQueryString(): string {
-    let queryString = '?';
-    for (const entree of this.query.entries()) {
-      queryString += `${entree[0]}=${entree[1]}&`;
+  private genererQueryString(paramMap: Map<string, string[]>): string {
+    let queryString = '';
+    for (const [key, value] of paramMap) {
+      const encodedKey = encodeURIComponent(key);
+      for (const item of value) {
+        const encodedValue = encodeURIComponent(item);
+        if (queryString.length === 0) {
+          queryString += `?${encodedKey}=${encodedValue}`;
+        } else {
+          queryString += `&${encodedKey}=${encodedValue}`;
+        }
+      }
     }
-    return queryString.substr(0, queryString.length - 1);
+    return queryString;
   }
 
-  private updateQuery(query: Map<string, string>) {
-    if (query.size > 0) {
-      for (const entree of query.entries()) {
-        this.query.set(entree[0], entree[1]);
-      }
+  // private genererQueryString(): string {
+  //   let queryString = '?';
+  //   for (const entree of this.query.entries()) {
+  //     queryString += `${entree[0]}=${entree[1]}&`;
+  //   }
+  //   return queryString.substr(0, queryString.length - 1);
+  // }
+
+  private updateQuery(query: Map<string, string[]>) {
+    for (const entree of query.entries()) {
+      this.query.set(entree[0], entree[1]);
     }
   }
 }

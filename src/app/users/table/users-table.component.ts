@@ -12,6 +12,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Input() public dataSource = new MatTableDataSource<any>([]);
   @Input() public displayedColumns: string[] = [];
+  public defaultImage = 'https://place-hold.it/200x200/';
   constructor() {}
 
   ngOnInit(): void {}
@@ -23,7 +24,8 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   public renderColumn(element: any, column: string) {
     switch (column) {
       case 'avatarUrl':
-        return `<img  src="${element[column]}" width="50" height="50" class="rounded my-1 me-sm-1" alt="" srcset="">`;
+        const image = element[column];
+        return `<img src="${element[column]}"  width="50" height="50" class="rounded my-1 me-sm-1" >`;
       case 'commits':
         return `<span>${element.contributionsCollection.totalCommitContributions}</span>`;
       case 'contributions':
@@ -35,7 +37,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
         }</span>`;
 
       default:
-        return `<span>${element[column]}</span>`;
+        return `<span>${element[column] ?? 'Non renseigné'}</span>`;
     }
   }
 }

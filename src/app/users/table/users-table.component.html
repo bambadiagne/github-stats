@@ -6,7 +6,7 @@
         mat-cell
         class="font-weight-normal text-reduce"
         *matCellDef="let element"
-        [innerHTML]="renderColumn(element, column)"
+        [innerHTML]="renderColumn(element, column) | sanitizeHtml"
       ></td>
     </ng-container>
 

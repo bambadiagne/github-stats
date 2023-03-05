@@ -1,0 +1,145 @@
+<div class="container my-5">
+  <div>
+    <p class="display-2 text-center">Chercher des utilisateurs</p>
+  </div>
+  <div class="my-4 bg-white rounded shadow-sm">
+    <form [formGroup]="form" class="p-3" action="">
+      <h4 class="text-center text-white">Formulaire de recherche</h4>
+      <div class="row">
+        <p class="mb-1 font-weight-bold">Pseudo(login)</p>
+        <div class="row msx-auto align-items-center">
+          <div class="col-md-5 col-12">
+            <input
+              class="form-control rounded-0 p-4 h-100"
+              formControlName="user"
+              name="user"
+              id="user"
+              placeholder="bambadiagne"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <p class="mb-1 font-weight-bold">Pays ou ville</p>
+        <div class="row align-items-center">
+          <div class="col-md-5 col-sm-12 order-right border-2 border-dark mr-1 d-flex justify-content-center">
+            <div class="col px-0">
+              <input
+                [disabled]="disableForm"
+                class="form-control rounded-0 p-4 h-100"
+                formControlName="location"
+                name="location"
+                id="location"
+                placeholder="Senegal"
+              />
+            </div>
+            <div class="col-auto px-0">
+              <button
+                [disabled]="disableForm"
+                type="submit"
+                class="btn btn-primary rounded-0 rounded-end px-3 h-100"
+                (click)="this.addLocation()"
+              >
+                <i class="ri-add-circle-line font-size-h2"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <app-tag
+                *ngFor="let location of this.locations; let i = index"
+                [isRemovable]="true"
+                [isColor]="false"
+                [tag]="location"
+                (tagRemoved)="this.removeLocation($event, i)"
+              ></app-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <p class="mb-1 font-weight-bold">Langage de programmation</p>
+        <div class="row align-items-center">
+          <div class="col-md-5 col-sm-12 order-right border-2 border-dark mr-1 d-flex justify-content-center">
+            <div class="col px-0">
+              <input
+                class="form-control rounded-0 p-4 h-100"
+                formControlName="language"
+                [disabled]="disableForm"
+                name="language"
+                id="language"
+                placeholder="Python"
+              />
+            </div>
+            <div class="col-auto px-0">
+              <button
+                [disabled]="disableForm"
+                type="submit"
+                class="btn btn-primary rounded-0 rounded-end px-3 h-100"
+                (click)="this.addLanguage()"
+              >
+                <i class="ri-add-circle-line font-size-h2"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <app-tag
+                *ngFor="let language of this.languages; let i = index"
+                [isRemovable]="true"
+                [isColor]="false"
+                [tag]="language"
+                (tagRemoved)="this.removeLanguage($event, i)"
+              ></app-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 row justify-content-center">
+        <div class="col-auto">
+          <button
+            type="button"
+            class="btn action px-5 py-3 my-3 my-sm-0 text-white"
+            style="background: #04304b"
+            (click)="submit()"
+          >
+            Rechercher
+          </button>
+          <span class="m-4"></span>
+          <button
+            type="button"
+            class="btn action px-5 py-3 my-3 my-sm-0"
+            style="background: #04304b1a; color: #04304b"
+            (click)="reinitialiser()"
+          >
+            Reinitialiser
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="mt-3">
+    <div class="my-2">
+      <p class="text-center">
+        Il y'a <span class="font-weight-bold"></span> utilisateurs de github localisés au Sénégal
+      </p>
+    </div>
+
+    <mat-tab-group mat-stretch-tabs mat-align-tabs="center" backgroundColor="primary">
+      <div class="row">
+        <div class="col">
+          <mat-tab label="Resultats de recherche">
+            <mat-spinner class="row justify-content-center mx-auto" *ngIf="showSpinner"></mat-spinner>
+
+            <app-users-table
+              *ngIf="!showSpinner"
+              [displayedColumns]="displayedColumns"
+              [dataSource]="dataSource"
+            ></app-users-table>
+          </mat-tab>
+        </div>
+      </div>
+    </mat-tab-group>
+  </div>
+</div>

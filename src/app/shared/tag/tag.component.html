@@ -1,0 +1,9 @@
+<p [ngStyle]="this.getTagStyle(tag)" class="d-inline-block badge-pill px-4 py-2 m-2 font-size-h6">
+  {{ tag }}
+  <i
+    *ngIf="this.isRemovable"
+    class="far fa-times-circle font-size-h6"
+    [ngStyle]="{ color: tag, cursor: 'pointer' }"
+    (click)="this.removeTag()"
+  ></i>
+</p>

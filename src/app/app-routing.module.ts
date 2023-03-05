@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SingleUserComponent } from './users/single-user/single-user.component';
-import { UsersGlobalComponent } from './users/users-global/users-global.component';
-import { UsersSenegalComponent } from './users/users-senegal/users-senegal.component';
+import { SingleUserComponent } from './users/single/single-user.component';
+import { UsersGlobalComponent } from './users/global/users-global.component';
+import { UsersSenegalComponent } from './users/senegal/users-senegal.component';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       { path: 'senegal', component: UsersSenegalComponent },
       { path: '', component: UsersGlobalComponent },
-      { path: ':produitId', component: SingleUserComponent }
+      { path: ':login', component: SingleUserComponent }
     ]
   },
   {

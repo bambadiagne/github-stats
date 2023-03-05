@@ -21,17 +21,19 @@ export class UsersSenegalComponent implements OnInit {
 
   ngOnInit(): void {
     this.githubService.obtenirContributionsSenegal();
-    this.githubService.retourListeUsers$.subscribe((result: any) => {
-      this.isLoading = false;
-      if (result) {
-        this.allSenegaleseData = result.users;
+    this.abonnements.push(
+      this.githubService.retourListeUsers$.subscribe((result: any) => {
+        this.isLoading = false;
+        if (result) {
+          this.allSenegaleseData = result.users;
 
-        this.dataSource.data = this.allSenegaleseData.sort(
-          (a: UserContributions, b: UserContributions) =>
-            b.contributionsCollection.totalCommitContributions - a.contributionsCollection.totalCommitContributions
-        );
-      }
-    });
+          this.dataSource.data = this.allSenegaleseData.sort(
+            (a: UserContributions, b: UserContributions) =>
+              b.contributionsCollection.totalCommitContributions - a.contributionsCollection.totalCommitContributions
+          );
+        }
+      })
+    );
   }
   public changeTab(e: MatTabChangeEvent) {
     this.isLoading = true;
