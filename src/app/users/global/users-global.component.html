@@ -25,7 +25,6 @@
           <div class="col-md-5 col-sm-12 order-right border-2 border-dark mr-1 d-flex justify-content-center">
             <div class="col px-0">
               <input
-                [disabled]="disableForm"
                 class="form-control rounded-0 p-4 h-100"
                 formControlName="location"
                 name="location"
@@ -58,14 +57,13 @@
         </div>
       </div>
       <div class="row">
-        <p class="mb-1 font-weight-bold">Langage de programmation</p>
+        <p class="mb-1 font-weight-bold">Premier langage de programmation</p>
         <div class="row align-items-center">
           <div class="col-md-5 col-sm-12 order-right border-2 border-dark mr-1 d-flex justify-content-center">
             <div class="col px-0">
               <input
                 class="form-control rounded-0 p-4 h-100"
                 formControlName="language"
-                [disabled]="disableForm"
                 name="language"
                 id="language"
                 placeholder="Python"
@@ -121,9 +119,7 @@
   </div>
   <div class="mt-3">
     <div class="my-2">
-      <p class="text-center">
-        Il y'a <span class="font-weight-bold"></span> utilisateurs de github localisés au Sénégal
-      </p>
+      <p class="text-center">Il y'a <span class="font-weight-bold"></span>{{ dataSource.data.length }} résultats</p>
     </div>
 
     <mat-tab-group mat-stretch-tabs mat-align-tabs="center" backgroundColor="primary">

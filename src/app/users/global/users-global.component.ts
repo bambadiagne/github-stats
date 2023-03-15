@@ -27,16 +27,16 @@ export class UsersGlobalComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.get('user')?.valueChanges.subscribe((selectedValue) => {
-      this.disableForm = selectedValue ? true : false;
-      // if(selectedValue){
-      //   // this.disableForm=true;
-      //    // this.form.get('language')?.disable();
-      //   // this.form.get('location')?.disable();
-      // }else{
-      //   // this.form.get('language')?.enable();
-      //   // this.form.get('location')?.enable();
-      //   this.disableForm
-      // }
+      // this.disableForm = selectedValue ? true : false;
+      if (selectedValue) {
+        this.disableForm = true;
+        this.form.get('language')?.disable();
+        this.form.get('location')?.disable();
+      } else {
+        this.form.get('language')?.enable();
+        this.form.get('location')?.enable();
+        this.disableForm = false;
+      }
     });
     this.githubService.retourListeSearch$.subscribe((result) => {
       this.showSpinner = false;
@@ -90,5 +90,6 @@ export class UsersGlobalComponent implements OnInit {
     this.form.reset();
     this.languages = [];
     this.locations = [];
+    this.dataSource.data = [];
   }
 }

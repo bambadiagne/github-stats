@@ -25,9 +25,12 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     switch (column) {
       case 'avatarUrl':
         const image = element[column];
-        return `<img src="${element[column]}"  width="50" height="50" class="rounded my-1 me-sm-1" >`;
+        return `<img src="${element[column]}"  width="50" height="50" class="rounded my-1 me-sm-1 img-fluid" >`;
       case 'commits':
         return `<span>${element.contributionsCollection.totalCommitContributions}</span>`;
+      case 'login':
+        return `<strong><a class='text-decoration-none' style='color: inherit;' href='/users/${element.login}'>${element.login}</a ></strong>`;
+
       case 'contributions':
         return `<span>${element.contributionsCollection.contributionCalendar.totalContributions}</span>`;
       case 'totalContributions':

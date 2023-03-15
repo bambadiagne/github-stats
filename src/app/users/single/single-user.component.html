@@ -1,1 +1,107 @@
-<p>single-user works!</p>
+<div class="container-xl my-5 border rounded shadow-lg">
+  <mat-spinner class="row justify-content-center mx-auto" *ngIf="showSpinner"></mat-spinner>
+  <div *ngIf="!showSpinner">
+    <div>
+      <div class="my-2">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-start justify-content-center">
+          <div class="">
+            <img class="rounded-circle" width="100px" height="100px" [src]="user!.avatarUrl" alt="" />
+          </div>
+          <div class="">
+            <div>
+              <span class="display-5">{{ user!.name ?? user!.login | titlecase }}</span>
+            </div>
+            <div>
+              <small *ngIf="user!.bio" class="fw-lighter text-dark">{{ user!.bio }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="display-5">Stats</p>
+      <div class="my-2">
+        <p class="h4 mb-2">Top 5 langages(decroissant)</p>
+        <div class="d-flex flex-sm-row flex-column flex-wrap">
+          <div *ngFor="let langage of user!.most_used_languages" class="my-sm-3">
+            <span class="bg-primary text-light fw-bolder border border-primary mx-2 p-3 w-100" style="min-width: 120px">
+              {{ langage }} &nbsp;
+              <img
+                [src]="getImageIcon(langage)"
+                (error)="onError(langage)"
+                [id]="langage"
+                class="rounded"
+                width="40"
+                height="40"
+                alt=""
+              />
+            </span>
+          </div>
+        </div>
+        <div class="my-2">
+          <p class="h4">Best repo</p>
+          <div class="my-3 row">
+            <div class="col">
+              <p class="fw-bold">Nom du projet<i class="ri-git-repository-line ri-xl"></i></p>
+            </div>
+            <div class="col">
+              <p class="fw-bold">Nombre d'etoiles<i class="ri-star-line ri-xl"></i></p>
+            </div>
+            <div class="col">
+              <p class="fw-bold">Nombre de fork<img src="https://img.icons8.com/ios-glyphs/30/null/code-fork.png" /></p>
+            </div>
+          </div>
+          <div class="my-1 row">
+            <div class="col">
+              <p class="fw-bolder">{{ user!.most_starred_repo.name }}</p>
+            </div>
+            <div class="col">
+              <p class="fw-bolder">{{ user!.most_starred_repo.stargazerCount }}</p>
+            </div>
+            <div class="col">
+              <p class="fw-bolder">{{ user!.most_starred_repo.forkCount }}</p>
+            </div>
+          </div>
+          <!-- <div class="d-flex">
+            <div class="">
+                <span class="fw-bold">Nom du projet:{{user!.most_starred_repo.name}} </span>
+            </div>
+            <div>
+                <span >{{user!.most_starred_repo.stargazerCount}}<i class="ri-star-line ri-xl"></i>{{user!.most_starred_repo.forkCount}}<img  src="https://img.icons8.com/ios-glyphs/30/null/code-fork.png"/></span>
+      
+            </div>
+        </div> -->
+          <div class="my-2 d-flex flex-column flex-sm-row justify-content-center flex-wrap">
+            <div class="w-50 w-sm-100">
+              <span class="d-inline-flex align-items-center"
+                ><i class="ri-twitter-fill ri-2x"></i> &nbsp;{{ user!.twitterUsername ?? 'Non renseigné' }}
+              </span>
+            </div>
+            <div class="w-50 w-sm-100">
+              <span class="d-inline-flex align-items-center"
+                ><i class="ri-global-line ri-2x"></i
+                ><a
+                  class="text-decoration-none"
+                  style="color: inherit"
+                  href="{{ user!.websiteUrl ?? '#' }}"
+                  aria-disabled="!user!.websiteUrl"
+                  >&nbsp;{{ user!.websiteUrl ?? 'Non renseigné' }}
+                </a></span
+              >
+            </div>
+            <div class="w-50 w-sm-100">
+              <span class="d-inline-flex align-items-center"
+                ><i class="ri-at-line ri-2x"></i>&nbsp;{{ user!.email !== '' ? user!.email : 'Non renseigné' }}</span
+              >
+            </div>
+            <div class="w-50 w-sm-100">
+              <span class="d-inline-flex align-items-center"
+                ><i class="ri-home-4-line ri-2x"></i>&nbsp;{{ user!.location ?? 'Non renseigné' }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

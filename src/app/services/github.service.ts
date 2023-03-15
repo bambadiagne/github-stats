@@ -10,7 +10,7 @@ export class GithubService {
   public retourListeUsers$: Subject<any[]> = new Subject();
   public retourListeSearch$: Subject<any> = new Subject();
   public retourDetailUser$: Subject<any> = new Subject();
-  public route = 'http://localhost:5000/users';
+  public route = 'http://127.0.0.1:5000/users';
   public query: Map<string, string[]> = new Map<string, string[]>();
 
   constructor(private http: HttpClient) {}

@@ -12,7 +12,7 @@ export interface User {
 export interface SingleUser extends User {
   email: string;
   most_starred_repo: MostStarredRepo;
-  most_used_anguages: string[];
+  most_used_languages: string[];
   twitterUsername: string;
   websiteUrl: string;
 }
