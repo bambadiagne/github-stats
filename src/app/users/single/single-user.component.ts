@@ -1,6 +1,5 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { SingleUser } from 'src/app/models/user';
 import { GithubService } from 'src/app/services/github.service';
 
@@ -10,17 +9,19 @@ import { GithubService } from 'src/app/services/github.service';
   styleUrls: ['./single-user.component.css']
 })
 export class SingleUserComponent implements OnInit {
-  public user: SingleUser | undefined;
+  public user: SingleUser | null | undefined;
   public showSpinner = true;
+  public messageErreur = '';
   constructor(
     private route: ActivatedRoute,
     private githubService: GithubService,
     private elRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
-    this.githubService.retourDetailUser$.subscribe((user: SingleUser) => {
+    this.githubService.retourDetailUser$.subscribe((user: SingleUser | any) => {
       this.showSpinner = false;
       this.user = user;
     });
@@ -29,6 +30,11 @@ export class SingleUserComponent implements OnInit {
       if (login) {
         this.githubService.obtenirDetailUser(login);
       }
+    });
+    this.githubService.messageErreur$.subscribe((erreur) => {
+      console.log('erreur', erreur);
+      this.showSpinner = false;
+      this.messageErreur = erreur;
     });
   }
   public getImageIcon(langage: string) {
@@ -48,13 +54,15 @@ export class SingleUserComponent implements OnInit {
     if (langage === 'c++') {
       langage = 'cplusplus';
     }
-    const request = `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${langage}/${langage}-original.svg`;
-    return request;
+    return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${langage}/${langage}-original.svg`;
   }
   public onError(langage: string) {
     console.log('rm lang', langage);
     const element = this.elRef.nativeElement.querySelector(`[id="${langage}"]`);
     this.renderer.setAttribute(element, 'src', 'assets/error-404.png');
     // this.renderer.removeChild(element.parentNode, element);
+  }
+  public goToHomePage() {
+    this.router.navigate(['/users/senegal']);
   }
 }

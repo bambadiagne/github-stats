@@ -49,17 +49,17 @@ export class UsersSenegalComponent implements OnInit {
         this.dataSource.data = this.allSenegaleseData.sort(
           (a: UserContributions, b: UserContributions) =>
             b.contributionsCollection.contributionCalendar.totalContributions -
-            a.contributionsCollection.contributionCalendar.totalContributions
+            b.contributionsCollection.restrictedContributionsCount -
+            (a.contributionsCollection.contributionCalendar.totalContributions -
+              a.contributionsCollection.restrictedContributionsCount)
         );
         this.displayedColumns = ['avatarUrl', 'login', 'name', 'contributions'];
         break;
       case 2:
         this.dataSource.data = this.allSenegaleseData.sort(
           (a: UserContributions, b: UserContributions) =>
-            b.contributionsCollection.totalCommitContributions +
             b.contributionsCollection.contributionCalendar.totalContributions -
-            (a.contributionsCollection.totalCommitContributions +
-              a.contributionsCollection.contributionCalendar.totalContributions)
+            a.contributionsCollection.contributionCalendar.totalContributions
         );
         this.displayedColumns = ['avatarUrl', 'login', 'name', 'totalContributions'];
         break;

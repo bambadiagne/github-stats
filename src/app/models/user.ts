@@ -10,11 +10,11 @@ export interface User {
   createdAt?: string;
 }
 export interface SingleUser extends User {
-  email: string;
-  most_starred_repo: MostStarredRepo;
+  email?: string;
+  most_starred_repo?: MostStarredRepo;
   most_used_languages: string[];
-  twitterUsername: string;
-  websiteUrl: string;
+  twitterUsername?: string;
+  websiteUrl?: string;
 }
 export interface UserContributions extends User {
   contributionsCollection: ContributionsCollection;

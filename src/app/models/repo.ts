@@ -1,5 +1,5 @@
 export interface MostStarredRepo {
-  forkCount: number;
-  name: string;
-  stargazerCount: number;
+  forkCount?: number;
+  name?: string;
+  stargazerCount?: number;
 }

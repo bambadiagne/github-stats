@@ -14,4 +14,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
   <mat-paginator #paginator [pageSizeOptions]="[25, 50, 100]" aria-label="Select une page"></mat-paginator>
+  <div>
+    <p class="h3 text-center" *ngIf="this.dataSource.data.length === 0">Aucun resultat</p>
+  </div>
 </div>

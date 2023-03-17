@@ -9,8 +9,9 @@ import { SingleUser, User, UserContributions } from '../models/user';
 export class GithubService {
   public retourListeUsers$: Subject<any[]> = new Subject();
   public retourListeSearch$: Subject<any> = new Subject();
-  public retourDetailUser$: Subject<any> = new Subject();
+  public retourDetailUser$: Subject<SingleUser> = new Subject();
   public route = 'http://127.0.0.1:5000/users';
+  public messageErreur$: Subject<any> = new Subject();
   public query: Map<string, string[]> = new Map<string, string[]>();
 
   constructor(private http: HttpClient) {}
@@ -34,20 +35,20 @@ export class GithubService {
     this.updateQuery(query);
 
     this.appelerServiceListe().subscribe((reponse: any) => {
-      if (reponse) {
-        this.retourListeSearch$.next(reponse);
+      if (reponse.message) {
+        this.messageErreur$.next(reponse.message);
       } else {
-        this.retourListeSearch$.next([]);
+        this.retourListeSearch$.next(reponse);
       }
     });
   }
 
   public obtenirDetailUser(login: string) {
     this.appelerServiceDetail(login).subscribe((reponse: SingleUser | any) => {
-      if (reponse) {
-        this.retourDetailUser$.next(reponse);
+      if (reponse.message) {
+        this.messageErreur$.next(reponse.message);
       } else {
-        this.retourDetailUser$.next(null);
+        this.retourDetailUser$.next(reponse);
       }
     });
   }

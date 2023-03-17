@@ -32,12 +32,12 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
         return `<strong><a class='text-decoration-none' style='color: inherit;' href='/users/${element.login}'>${element.login}</a ></strong>`;
 
       case 'contributions':
-        return `<span>${element.contributionsCollection.contributionCalendar.totalContributions}</span>`;
-      case 'totalContributions':
         return `<span>${
-          element.contributionsCollection.totalCommitContributions +
-          element.contributionsCollection.contributionCalendar.totalContributions
+          element.contributionsCollection.contributionCalendar.totalContributions -
+          element.contributionsCollection.restrictedContributionsCount
         }</span>`;
+      case 'totalContributions':
+        return `<span>${element.contributionsCollection.contributionCalendar.totalContributions}</span>`;
 
       default:
         return `<span>${element[column] ?? 'Non renseigné'}</span>`;

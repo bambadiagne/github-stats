@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TagComponent } from './shared/tag/tag.component';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
+import { CustomDialogComponent } from './shared/custom-dialog/custom-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
     UsersGlobalComponent,
     SingleUserComponent,
     TagComponent,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    CustomDialogComponent
   ],
   imports: [
     BrowserModule,

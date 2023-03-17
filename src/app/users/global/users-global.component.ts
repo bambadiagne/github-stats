@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/app/models/user';
 import { GithubService } from 'src/app/services/github.service';
+import { CustomDialogComponent } from 'src/app/shared/custom-dialog/custom-dialog.component';
+import { SingleUserComponent } from '../single/single-user.component';
 
 @Component({
   selector: 'app-users-global',
@@ -23,7 +26,7 @@ export class UsersGlobalComponent implements OnInit {
     location: new FormControl(''),
     language: new FormControl('')
   });
-  constructor(private githubService: GithubService) {}
+  constructor(private githubService: GithubService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.form.get('user')?.valueChanges.subscribe((selectedValue) => {
@@ -43,6 +46,15 @@ export class UsersGlobalComponent implements OnInit {
       if (result) {
         this.dataSource.data = result;
       }
+    });
+    this.githubService.messageErreur$.subscribe((error) => {
+      this.showSpinner = false;
+      this.openAlertDialog(`<div class="text-center"><i class="ri-information-fill ri-3x"></i>
+      <p class="display-5">Information</p>
+      <div>
+        <p class='text-center'>${error}</p>
+      </div>
+      </div>`);
     });
   }
 
@@ -91,5 +103,16 @@ export class UsersGlobalComponent implements OnInit {
     this.languages = [];
     this.locations = [];
     this.dataSource.data = [];
+  }
+
+  openAlertDialog(message: string) {
+    const dialogRef = this.dialog.open(CustomDialogComponent, {
+      data: {
+        message: message,
+        buttonText: {
+          cancel: 'Ok'
+        }
+      }
+    });
   }
 }
