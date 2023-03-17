@@ -9,7 +9,7 @@ export interface User {
   location?: string;
   createdAt?: string;
 }
-export interface SingleUser extends User {
+export interface SingleUser extends UserContributions {
   email?: string;
   most_starred_repo?: MostStarredRepo;
   most_used_languages: string[];

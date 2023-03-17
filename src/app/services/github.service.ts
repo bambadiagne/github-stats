@@ -10,7 +10,7 @@ export class GithubService {
   public retourListeUsers$: Subject<any[]> = new Subject();
   public retourListeSearch$: Subject<any> = new Subject();
   public retourDetailUser$: Subject<SingleUser> = new Subject();
-  public route = 'http://127.0.0.1:5000/users';
+  public route = 'http://github-user-api-dev.us-west-2.elasticbeanstalk.com/users';
   public messageErreur$: Subject<any> = new Subject();
   public query: Map<string, string[]> = new Map<string, string[]>();
 

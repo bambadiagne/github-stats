@@ -4,6 +4,7 @@
       Il y'a <span class="font-weight-bold"> {{ allSenegaleseData.length }}</span> utilisateurs de github localisés au
       Sénégal
     </p>
+    <p class="fw-bold text-center">Les données sont mises à jour chaque heure🚀!!!</p>
   </div>
   <mat-tab-group
     (selectedTabChange)="changeTab($event)"
@@ -25,7 +26,7 @@
         </mat-tab>
       </div>
       <div class="col">
-        <mat-tab label="Total de contributions">
+        <mat-tab label="Total de contributions(publique)">
           <app-users-table
             *ngIf="currentTab === 1"
             [displayedColumns]="displayedColumns"

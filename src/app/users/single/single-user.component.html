@@ -19,7 +19,7 @@
       </div>
     </div>
     <div>
-      <p class="display-5">Stats</p>
+      <p class="display-5">Github Stats</p>
       <div class="my-2">
         <p class="h4 mb-3">Top 5 langages(decroissant)</p>
         <div class="d-flex flex-sm-row flex-column flex-wrap">
@@ -42,8 +42,43 @@
           </div>
         </div>
         <div class="my-2">
+          <div *ngIf="user!.most_starred_repo" class="my-3 row">
+            <hr class="d-block d-sm-none" />
+            <div class="col-sm d-flex flex-column">
+              <div class="col">
+                <p class="fw-bold d-inline-flex align-items-center">Total commits</p>
+              </div>
+              <div>
+                <p class="fw-bolder h4">{{ user!.contributionsCollection.totalCommitContributions }}</p>
+              </div>
+            </div>
+            <hr class="d-block d-sm-none" />
+            <div class="col-sm d-flex flex-column">
+              <div class="col">
+                <p class="fw-bold d-inline-flex align-items-center">Contributions publiques</p>
+              </div>
+              <div class="col-auto">
+                <p class="fw-bolder h4">
+                  {{
+                    user!.contributionsCollection.contributionCalendar.totalContributions -
+                      user!.contributionsCollection.restrictedContributionsCount
+                  }}
+                </p>
+              </div>
+            </div>
+            <hr class="d-block d-sm-none" />
+            <div class="col-sm d-flex flex-column">
+              <div class="col">
+                <p class="fw-bold d-inline-flex align-items-center">Contributions(publique+privée)</p>
+              </div>
+              <div class="col-auto">
+                <p class="fw-bolder h4">{{ user!.contributionsCollection.contributionCalendar.totalContributions }}</p>
+              </div>
+            </div>
+            <hr class="d-block d-sm-none" />
+          </div>
           <p class="h4">Best repo</p>
-          <div class="my-3 row">
+          <div *ngIf="user!.most_starred_repo" class="my-3 row">
             <hr class="d-block d-sm-none" />
             <div class="col-sm d-flex flex-column">
               <div class="col">
@@ -79,6 +114,7 @@
             </div>
             <hr class="d-block d-sm-none" />
           </div>
+          <div *ngIf="!user!.most_starred_repo" class="my-3 text-center display-5">Aucun dépot disponbile</div>
           <!-- <div class="my-1 row"> -->
 
           <!-- </div> -->
