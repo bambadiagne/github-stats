@@ -24,6 +24,7 @@ export class SingleUserComponent implements OnInit {
     this.githubService.retourDetailUser$.subscribe((user: SingleUser | any) => {
       this.showSpinner = false;
       this.user = user;
+      document.getElementById('content')!.scrollIntoView(true);
     });
     this.route.paramMap.subscribe((params: ParamMap) => {
       const login = params.get('login');
@@ -32,7 +33,7 @@ export class SingleUserComponent implements OnInit {
       }
     });
     this.githubService.messageErreur$.subscribe((erreur) => {
-      console.log('erreur', erreur);
+      document.getElementById('content')!.scrollIntoView(true);
       this.showSpinner = false;
       this.messageErreur = erreur;
     });

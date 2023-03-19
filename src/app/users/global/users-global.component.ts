@@ -43,6 +43,7 @@ export class UsersGlobalComponent implements OnInit {
     });
     this.githubService.retourListeSearch$.subscribe((result) => {
       this.showSpinner = false;
+      document.getElementById('content')!.scrollIntoView();
       if (result) {
         this.dataSource.data = result;
       }

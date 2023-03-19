@@ -23,6 +23,7 @@ export class UsersSenegalComponent implements OnInit {
     this.githubService.obtenirContributionsSenegal();
     this.abonnements.push(
       this.githubService.retourListeUsers$.subscribe((result: any) => {
+        document.getElementById('content')!.scrollIntoView(true);
         this.isLoading = false;
         if (result) {
           this.allSenegaleseData = result.users;

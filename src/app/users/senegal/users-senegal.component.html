@@ -7,6 +7,7 @@
     <p class="fw-bold text-center">Les données sont mises à jour chaque heure🚀!!!</p>
   </div>
   <mat-tab-group
+    id="content"
     (selectedTabChange)="changeTab($event)"
     mat-stretch-tabs
     mat-align-tabs="center"
@@ -14,10 +15,11 @@
     [dynamicHeight]="true"
     backgroundColor="primary"
   >
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
     <div class="row">
       <div class="col">
         <mat-tab label="Total de commits">
+          <mat-spinner class="row justify-content-center mx-auto" *ngIf="isLoading"></mat-spinner>
+
           <app-users-table
             *ngIf="currentTab === 0"
             [displayedColumns]="displayedColumns"
@@ -27,6 +29,7 @@
       </div>
       <div class="col">
         <mat-tab label="Total de contributions(publique)">
+          <mat-spinner class="row justify-content-center mx-auto" *ngIf="isLoading"></mat-spinner>
           <app-users-table
             *ngIf="currentTab === 1"
             [displayedColumns]="displayedColumns"
@@ -37,6 +40,7 @@
 
       <div class="col">
         <mat-tab label="Total de contributons (publique + privé)">
+          <mat-spinner class="row justify-content-center mx-auto" *ngIf="isLoading"></mat-spinner>
           <app-users-table
             *ngIf="currentTab === 2"
             [displayedColumns]="displayedColumns"

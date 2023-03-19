@@ -1,4 +1,4 @@
-<div class="container-xl my-5 border rounded shadow-lg">
+<div id="content" class="container-xl my-5 border rounded shadow-lg">
   <mat-spinner class="row justify-content-center mx-auto" *ngIf="showSpinner"></mat-spinner>
   <div *ngIf="!showSpinner && this.user">
     <div>
@@ -21,9 +21,9 @@
     <div>
       <p class="display-5">Github Stats</p>
       <div class="my-2">
-        <p class="h4 mb-3">Top 5 langages(decroissant)</p>
+        <p class="h4 mb-3">Top 5 langages</p>
         <div class="d-flex flex-sm-row flex-column flex-wrap">
-          <div *ngFor="let langage of user!.most_used_languages" class="my-sm-3 mb-4">
+          <div *ngFor="let langage of user!.most_used_languages; let i = index" class="my-sm-3 mb-4">
             <span
               class="bg-primary text-light fw-bolder border border-primary mx-2 p-3 w-100 shadow-lg"
               style="min-width: 120px"
@@ -105,7 +105,7 @@
             <div class="col-sm d-flex flex-column">
               <div class="col">
                 <p class="fw-bold d-inline-flex align-items-center">
-                  Nombre de fork<img src="https://img.icons8.com/ios-glyphs/30/null/code-fork.png" />
+                  Nombre de forks<img src="https://img.icons8.com/ios-glyphs/30/null/code-fork.png" />
                 </p>
               </div>
               <div class="col-auto">
