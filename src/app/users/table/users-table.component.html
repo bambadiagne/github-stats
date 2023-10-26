@@ -1,4 +1,8 @@
-<div class="container">
+<div>
+  <mat-form-field appearance="standard">
+    <mat-label>Rechercher</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher par nom..." #input />
+  </mat-form-field>
   <table mat-table [dataSource]="dataSource" class="w-100">
     <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
       <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>

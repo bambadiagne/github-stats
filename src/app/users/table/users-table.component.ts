@@ -50,4 +50,9 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
 
     this.router.navigate(['/users', goRoute]);
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

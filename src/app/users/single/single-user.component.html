@@ -1,13 +1,13 @@
 <div id="content" class="container-xl my-5 border rounded shadow-lg">
   <mat-spinner class="row justify-content-center mx-auto" *ngIf="showSpinner"></mat-spinner>
-  <div *ngIf="!showSpinner && this.user">
+  <div id="profile_data" *ngIf="!showSpinner && this.user">
     <div>
-      <div class="my-2">
-        <div class="d-flex flex-column flex-sm-row justify-content-sm-start justify-content-center">
+      <div class="row mb-2 mt-4">
+        <div class="d-flex flex-column flex-sm-row">
           <div class="">
             <img class="rounded-circle" width="100px" height="100px" [src]="user!.avatarUrl" alt="" />
           </div>
-          <div class="">
+          <div class="mr-auto">
             <div>
               <span class="display-5">{{ user!.name ?? user!.login | titlecase }}</span>
             </div>
@@ -15,110 +15,129 @@
               <small *ngIf="user!.bio" class="fw-lighter text-dark">{{ user!.bio }}</small>
             </div>
           </div>
+          <div class="d-flex flex-row justify-content-sm-end justify-content-end">
+            <div id="button-download" class="ml-auto">
+              <button class="btn p-2" (click)="downloadProfile()">
+                <i class="btn btn-primary ri-download-line"></i>
+              </button>
+            </div>
+            <div id="select-social-media">
+              <select
+                (change)="onChange($event)"
+                class="form-select form-select-lg mb-3"
+                aria-label=".form-select-lg example"
+              >
+                <option value="" disabled selected>Selectionner un réseau social</option>
+                <option *ngFor="let ratio of mediaSizeList" [value]="ratio.imageSize">{{ ratio.socialName }}</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div>
-      <p class="display-5">Github Stats</p>
-      <div class="my-2">
-        <p class="h4 mb-3">Top 5 langages</p>
-        <div class="d-flex flex-sm-row flex-column flex-wrap">
-          <div *ngFor="let langage of user!.most_used_languages; let i = index" class="my-sm-3 mb-4">
-            <span
-              class="bg-primary text-light fw-bolder border border-primary mx-2 p-3 w-100 shadow-lg"
-              style="min-width: 120px"
-            >
-              {{ langage }} &nbsp;
-              <img
-                [src]="getImageIcon(langage)"
-                (error)="onError(langage)"
-                [id]="langage"
-                class="rounded"
-                width="40"
-                height="40"
-                alt=""
-              />
-            </span>
-          </div>
-        </div>
+      <div>
+        <p class="display-5">Github Stats</p>
         <div class="my-2">
-          <div *ngIf="user!.most_starred_repo" class="my-3 row">
-            <hr class="d-block d-sm-none" />
-            <div class="col-sm d-flex flex-column">
-              <div class="col">
-                <p class="fw-bold d-inline-flex align-items-center">Total commits</p>
-              </div>
-              <div>
-                <p class="fw-bolder h4">{{ user!.contributionsCollection.totalCommitContributions }}</p>
-              </div>
+          <p class="h4 mb-3">Top 5 langages</p>
+          <div class="d-flex flex-sm-row flex-column flex-wrap">
+            <div *ngFor="let langage of user!.most_used_languages; let i = index" class="my-sm-3 mb-4">
+              <span
+                class="text-light fw-bolder border mx-2 p-3 w-100 shadow-lg"
+                style="min-width: 120px; background-color: #b1b1b1; border-color: #b1b1b1"
+              >
+                {{ langage }} &nbsp;
+                <img
+                  onload="SVGInject(this)"
+                  [src]="getImageIcon(langage)"
+                  (error)="onError(langage)"
+                  [id]="langage"
+                  class="rounded img-svg"
+                  width="40"
+                  height="40"
+                  alt=""
+                />
+              </span>
             </div>
-            <hr class="d-block d-sm-none" />
-            <div class="col-sm d-flex flex-column">
-              <div class="col">
-                <p class="fw-bold d-inline-flex align-items-center">Contributions publiques</p>
-              </div>
-              <div class="col-auto">
-                <p class="fw-bolder h4">
-                  {{
-                    user!.contributionsCollection.contributionCalendar.totalContributions -
-                      user!.contributionsCollection.restrictedContributionsCount
-                  }}
-                </p>
-              </div>
-            </div>
-            <hr class="d-block d-sm-none" />
-            <div class="col-sm d-flex flex-column">
-              <div class="col">
-                <p class="fw-bold d-inline-flex align-items-center">Contributions(publique+privée)</p>
-              </div>
-              <div class="col-auto">
-                <p class="fw-bolder h4">{{ user!.contributionsCollection.contributionCalendar.totalContributions }}</p>
-              </div>
-            </div>
-            <hr class="d-block d-sm-none" />
           </div>
-          <p class="h4">Best repo</p>
-          <div *ngIf="user!.most_starred_repo" class="my-3 row">
-            <hr class="d-block d-sm-none" />
-            <div class="col-sm d-flex flex-column">
-              <div class="col">
-                <p class="fw-bold d-inline-flex align-items-center">
-                  Nom du projet<i class="ri-git-repository-line ri-xl"></i>
-                </p>
+          <div class="my-2">
+            <div *ngIf="user!.most_starred_repo" class="my-3 row">
+              <hr class="d-block d-sm-none" />
+              <div class="col-sm d-flex flex-column">
+                <div class="col">
+                  <p class="fw-bold d-inline-flex align-items-center">Total commits</p>
+                </div>
+                <div>
+                  <p class="fw-bolder h4">{{ user!.contributionsCollection.totalCommitContributions }}</p>
+                </div>
               </div>
-              <div>
-                <p class="fw-bolder">{{ user!.most_starred_repo!.name }}</p>
+              <hr class="d-block d-sm-none" />
+              <div class="col-sm d-flex flex-column">
+                <div class="col">
+                  <p class="fw-bold d-inline-flex align-items-center">Contributions publiques</p>
+                </div>
+                <div class="col-auto">
+                  <p class="fw-bolder h4">
+                    {{
+                      user!.contributionsCollection.contributionCalendar.totalContributions -
+                        user!.contributionsCollection.restrictedContributionsCount
+                    }}
+                  </p>
+                </div>
               </div>
+              <hr class="d-block d-sm-none" />
+              <div class="col-sm d-flex flex-column">
+                <div class="col">
+                  <p class="fw-bold d-inline-flex align-items-center">Contributions(publique+privée)</p>
+                </div>
+                <div class="col-auto">
+                  <p class="fw-bolder h4">
+                    {{ user!.contributionsCollection.contributionCalendar.totalContributions }}
+                  </p>
+                </div>
+              </div>
+              <hr class="d-block d-sm-none" />
             </div>
-            <hr class="d-block d-sm-none" />
-            <div class="col-sm d-flex flex-column">
-              <div class="col">
-                <p class="fw-bold d-inline-flex align-items-center">
-                  Nombre d'etoiles<i class="ri-star-line ri-xl"></i>
-                </p>
+            <p class="h4">Best repo</p>
+            <div *ngIf="user!.most_starred_repo" class="my-3 row">
+              <hr class="d-block d-sm-none" />
+              <div class="col-sm d-flex flex-column">
+                <div class="col">
+                  <p class="fw-bold d-inline-flex align-items-center">
+                    Nom du projet<i class="ri-git-repository-line ri-xl"></i>
+                  </p>
+                </div>
+                <div>
+                  <p class="fw-bolder">{{ user!.most_starred_repo!.name }}</p>
+                </div>
               </div>
-              <div class="col-auto">
-                <p class="fw-bolder h4">{{ user!.most_starred_repo!.stargazerCount! }}</p>
+              <hr class="d-block d-sm-none" />
+              <div class="col-sm d-flex flex-column">
+                <div class="col">
+                  <p class="fw-bold d-inline-flex align-items-center">
+                    Nombre d'etoiles<i class="ri-star-line ri-xl"></i>
+                  </p>
+                </div>
+                <div class="col-auto">
+                  <p class="fw-bolder h4">{{ user!.most_starred_repo!.stargazerCount! }}</p>
+                </div>
               </div>
+              <hr class="d-block d-sm-none" />
+              <div class="col-sm d-flex flex-column">
+                <div class="col">
+                  <p class="fw-bold d-inline-flex align-items-center">
+                    Nombre de forks<img src="https://img.icons8.com/ios-glyphs/30/null/code-fork.png" />
+                  </p>
+                </div>
+                <div class="col-auto">
+                  <p class="fw-bolder h4">{{ user!.most_starred_repo!.forkCount }}</p>
+                </div>
+              </div>
+              <hr class="d-block d-sm-none" />
             </div>
-            <hr class="d-block d-sm-none" />
-            <div class="col-sm d-flex flex-column">
-              <div class="col">
-                <p class="fw-bold d-inline-flex align-items-center">
-                  Nombre de forks<img src="https://img.icons8.com/ios-glyphs/30/null/code-fork.png" />
-                </p>
-              </div>
-              <div class="col-auto">
-                <p class="fw-bolder h4">{{ user!.most_starred_repo!.forkCount }}</p>
-              </div>
-            </div>
-            <hr class="d-block d-sm-none" />
-          </div>
-          <div *ngIf="!user!.most_starred_repo" class="my-3 text-center display-5">Aucun dépot disponbile</div>
-          <!-- <div class="my-1 row"> -->
+            <div *ngIf="!user!.most_starred_repo" class="my-3 text-center display-5">Aucun dépot disponbile</div>
+            <!-- <div class="my-1 row"> -->
 
-          <!-- </div> -->
-          <!-- <div class="d-flex">
+            <!-- </div> -->
+            <!-- <div class="d-flex">
             <div class="">
                 <span class="fw-bold">Nom du projet:{{user!.most_starred_repo.name}} </span>
             </div>
@@ -127,57 +146,58 @@
       
             </div>
         </div> -->
-          <div class="my-2 d-flex flex-column flex-sm-row justify-content-center flex-wrap">
-            <div class="w-50 w-sm-100">
-              <span class="d-inline-flex align-items-center"
-                ><i class="ri-twitter-fill ri-2x"></i> &nbsp;<a
-                  [ngClass]="user.twitterUsername ? 'pe-auto' : 'pe-none'"
-                  target="_blank"
-                  class="text-decoration-none"
-                  style="color: inherit"
-                  href="{{ user.twitterUsername ? 'https://twitter.com/' + user.twitterUsername : '#' }}"
-                  >{{ user.twitterUsername ?? 'Non renseigné' }}</a
+            <div class="my-2 d-flex flex-column flex-sm-row justify-content-center flex-wrap">
+              <div class="w-50 w-sm-100">
+                <span class="d-inline-flex align-items-center"
+                  ><i class="ri-twitter-fill ri-2x"></i> &nbsp;<a
+                    [ngClass]="user.twitterUsername ? 'pe-auto' : 'pe-none'"
+                    target="_blank"
+                    class="text-decoration-none"
+                    style="color: inherit"
+                    href="{{ user.twitterUsername ? 'https://twitter.com/' + user.twitterUsername : '#' }}"
+                    >{{ user.twitterUsername ?? 'Non renseigné' }}</a
+                  >
+                </span>
+              </div>
+              <div class="w-50 w-sm-100">
+                <span class="d-inline-flex align-items-center"
+                  ><i class="ri-global-line ri-2x"></i
+                  ><a
+                    [ngClass]="user!.websiteUrl ? 'pe-auto' : 'pe-none'"
+                    class="text-decoration-none"
+                    style="color: inherit"
+                    target="_blank"
+                    href="{{ user!.websiteUrl ?? '#' }}"
+                    disabled="!user!.websiteUrl===''"
+                    >&nbsp;{{ user.websiteUrl ?? 'Non renseigné' }}
+                  </a></span
                 >
-              </span>
-            </div>
-            <div class="w-50 w-sm-100">
-              <span class="d-inline-flex align-items-center"
-                ><i class="ri-global-line ri-2x"></i
-                ><a
-                  [ngClass]="user!.websiteUrl ? 'pe-auto' : 'pe-none'"
-                  class="text-decoration-none"
-                  style="color: inherit"
-                  target="_blank"
-                  href="{{ user!.websiteUrl ?? '#' }}"
-                  disabled="!user!.websiteUrl===''"
-                  >&nbsp;{{ user.websiteUrl ?? 'Non renseigné' }}
-                </a></span
-              >
-            </div>
-            <div class="w-50 w-sm-100">
-              <span class="d-inline-flex align-items-center"
-                ><i class="ri-at-line ri-2x"></i>&nbsp;{{ user.email ? user.email : 'Non renseigné' }}</span
-              >
-            </div>
-            <div class="w-50 w-sm-100">
-              <span class="d-inline-flex align-items-center"
-                ><i class="ri-home-4-line ri-2x"></i>&nbsp;{{ user.location ?? 'Non renseigné' }}</span
-              >
+              </div>
+              <div class="w-50 w-sm-100">
+                <span class="d-inline-flex align-items-center"
+                  ><i class="ri-at-line ri-2x"></i>&nbsp;{{ user.email ? user.email : 'Non renseigné' }}</span
+                >
+              </div>
+              <div class="w-50 w-sm-100">
+                <span class="d-inline-flex align-items-center"
+                  ><i class="ri-home-4-line ri-2x"></i>&nbsp;{{ user.location ?? 'Non renseigné' }}</span
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div *ngIf="!showSpinner && this.messageErreur" class="my-3">
-    <div class="text-center">
-      <img src="assets/error-404.png" alt="" />
-      <p class="display-5">Utilisateur introuvable</p>
-      <div>
-        <p>{{ messageErreur }}</p>
-      </div>
-      <div>
-        <button (click)="goToHomePage()" class="btn bg-primary text-white">Retourner à l'accueil</button>
+    <div *ngIf="!showSpinner && this.messageErreur" class="my-3">
+      <div class="text-center">
+        <img src="assets/error-404.png" alt="" />
+        <p class="display-5">Utilisateur introuvable</p>
+        <div>
+          <p>{{ messageErreur }}</p>
+        </div>
+        <div>
+          <button (click)="goToHomePage()" class="btn bg-primary text-white">Retourner à l'accueil</button>
+        </div>
       </div>
     </div>
   </div>
