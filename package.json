@@ -4,10 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prettier": "prettier --config .prettierrc src/**/*.{ts,html} --write"
+    "prettier": "prettier --config .prettierrc src/**/*.{ts,html} --write",
+    "dev-docker":"ng serve --host 0.0.0.0 --poll 1000 --disable-host-check"
   },
   "private": true,
   "dependencies": {
