@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm ci 
 COPY . .
 RUN npm run build
-CMD ["npm","run","dev-docker"]
+CMD ["npm","run","dev:docker"]
 
 FROM nginx:latest as prod-stage
 COPY --from=dev-stage /app/nginx.conf /etc/nginx/nginx.conf
