@@ -1,25 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { GithubService } from 'src/app/services/github.service';
 import { CustomDialogComponent } from 'src/app/shared/custom-dialog/custom-dialog.component';
-import { SingleUserComponent } from '../single/single-user.component';
 
 @Component({
   selector: 'app-users-global',
   templateUrl: './users-global.component.html',
   styleUrls: ['./users-global.component.css']
 })
-export class UsersGlobalComponent implements OnInit {
+export class UsersGlobalComponent implements OnInit, OnDestroy {
+  public suscriptions: Subscription[] = [];
   public locations: string[] = [];
   public languages: string[] = [];
   public dataSource = new MatTableDataSource<User>([]);
   public showSpinner = false;
+
   public displayedColumns = ['avatarUrl', 'login', 'name'];
   public disableForm = false;
-
+  public messageErreur = '';
   public query: Map<string, string[]> = new Map<string, string[]>();
   public form = new FormGroup({
     user: new FormControl(''),
@@ -27,6 +29,10 @@ export class UsersGlobalComponent implements OnInit {
     language: new FormControl('')
   });
   constructor(private githubService: GithubService, private dialog: MatDialog) {}
+
+  ngOnDestroy(): void {
+    this.suscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
 
   ngOnInit(): void {
     this.form.get('user')?.valueChanges.subscribe((selectedValue) => {

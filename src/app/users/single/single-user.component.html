@@ -1,7 +1,7 @@
 <div id="content" class="container-xl my-5 border rounded shadow-lg">
   <mat-spinner class="row justify-content-center mx-auto" *ngIf="showSpinner"></mat-spinner>
-  <div id="profile_data" *ngIf="!showSpinner && this.user">
-    <div>
+  <div #profile_data>
+    <div *ngIf="!showSpinner && this.user">
       <div class="row mb-2 mt-4">
         <div class="d-flex flex-column flex-sm-row">
           <div class="">
@@ -15,13 +15,13 @@
               <small *ngIf="user!.bio" class="fw-lighter text-dark">{{ user!.bio }}</small>
             </div>
           </div>
-          <div class="d-flex flex-row justify-content-sm-end justify-content-end">
+          <div class="d-flex flex-row">
             <div id="button-download" class="ml-auto">
               <button class="btn p-2" (click)="downloadProfile()">
                 <i class="btn btn-primary ri-download-line"></i>
               </button>
             </div>
-            <div id="select-social-media">
+            <!-- <div id="select-social-media">
               <select
                 (change)="onChange($event)"
                 class="form-select form-select-lg mb-3"
@@ -30,7 +30,7 @@
                 <option value="" disabled selected>Selectionner un réseau social</option>
                 <option *ngFor="let ratio of mediaSizeList" [value]="ratio.imageSize">{{ ratio.socialName }}</option>
               </select>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -185,18 +185,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="!showSpinner && this.messageErreur" class="my-3">
-      <div class="text-center">
-        <img src="assets/error-404.png" alt="" />
-        <p class="display-5">Utilisateur introuvable</p>
-        <div>
-          <p>{{ messageErreur }}</p>
-        </div>
-        <div>
-          <button (click)="goToHomePage()" class="btn bg-primary text-white">Retourner à l'accueil</button>
         </div>
       </div>
     </div>

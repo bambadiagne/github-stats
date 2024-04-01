@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SingleUser, User, UserContributions } from '../models/user';
+import { ApiError } from '../models/error-api';
 
 @Injectable({
   providedIn: 'root'
@@ -17,38 +18,36 @@ export class GithubService {
   constructor(private http: HttpClient) {}
 
   public async obtenirContributionsSenegal() {
-    this.appelerServiceContributions().subscribe(
-      (reponse: UserContributions[]) => {
-        if (reponse) {
-          this.retourListeUsers$.next(reponse);
-        } else {
-          this.retourListeUsers$.next([]);
-        }
+    this.appelerServiceContributions().subscribe({
+      next: (reponse: UserContributions[]) => {
+        this.retourListeUsers$.next(reponse);
       },
-      () => {
-        this.retourListeUsers$.next(null as unknown as any[]);
+      error: (erreur) => {
+        this.messageErreur$.next(this.handleError(erreur));
       }
-    );
+    });
   }
 
   public filtrer(query: Map<string, string[]>) {
     this.updateQuery(query);
 
-    this.appelerServiceListe().subscribe((reponse: any) => {
-      if (reponse.message) {
-        this.messageErreur$.next(reponse.message);
-      } else {
+    this.appelerServiceListe().subscribe({
+      next: (reponse: User[]) => {
         this.retourListeSearch$.next(reponse);
+      },
+      error: (erreur) => {
+        this.messageErreur$.next(this.handleError(erreur));
       }
     });
   }
 
   public obtenirDetailUser(login: string) {
-    this.appelerServiceDetail(login).subscribe((reponse: SingleUser | any) => {
-      if (reponse.message) {
-        this.messageErreur$.next(reponse.message);
-      } else {
+    this.appelerServiceDetail(login).subscribe({
+      next: (reponse: SingleUser) => {
         this.retourDetailUser$.next(reponse);
+      },
+      error: (erreur) => {
+        this.messageErreur$.next(this.handleError(erreur));
       }
     });
   }
@@ -86,7 +85,12 @@ export class GithubService {
   //   }
   //   return queryString.substr(0, queryString.length - 1);
   // }
-
+  public handleError(error: HttpErrorResponse | ApiError): string {
+    if (error.message.includes('Http failure response for')) {
+      return 'Impossible de se connecter au serveur';
+    }
+    return error.message;
+  }
   private updateQuery(query: Map<string, string[]>) {
     for (const entree of query.entries()) {
       this.query.set(entree[0], entree[1]);

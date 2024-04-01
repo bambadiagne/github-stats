@@ -1,27 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { UserContributions } from 'src/app/models/user';
 import { GithubService } from 'src/app/services/github.service';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-users-senegal',
   templateUrl: './users-senegal.component.html',
   styleUrls: ['./users-senegal.component.css']
 })
-export class UsersSenegalComponent implements OnInit {
-  private abonnements: Subscription[] = [];
+export class UsersSenegalComponent implements OnInit, OnDestroy {
+  private suscriptions: Subscription[] = [];
   public currentTab = 0;
   public isLoading = true;
   public displayedColumns: string[] = ['avatarUrl', 'login', 'name', 'commits'];
   public allSenegaleseData: UserContributions[] = [];
   public dataSource = new MatTableDataSource<UserContributions>([]);
-  constructor(private githubService: GithubService) {}
+  constructor(private githubService: GithubService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.githubService.obtenirContributionsSenegal();
-    this.abonnements.push(
+    this.suscriptions.push(
       this.githubService.retourListeUsers$.subscribe((result: any) => {
         document.getElementById('content')!.scrollIntoView(true);
         this.isLoading = false;
@@ -33,6 +35,12 @@ export class UsersSenegalComponent implements OnInit {
               b.contributionsCollection.totalCommitContributions - a.contributionsCollection.totalCommitContributions
           );
         }
+      })
+    );
+    this.suscriptions.push(
+      this.githubService.messageErreur$.subscribe((erreur) => {
+        this.isLoading = false;
+        Utils.openAlertDialog(this.dialog, erreur);
       })
     );
   }
@@ -68,7 +76,7 @@ export class UsersSenegalComponent implements OnInit {
     this.isLoading = false;
   }
   ngOnDestroy(): void {
-    this.abonnements.forEach((abo) => {
+    this.suscriptions.forEach((abo) => {
       abo.unsubscribe();
     });
   }

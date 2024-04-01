@@ -1,21 +1,23 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { SingleUser } from 'src/app/models/user';
 import { GithubService } from 'src/app/services/github.service';
 import html2canvas from 'html2canvas';
-import domtoimage from 'dom-to-image';
 import { ImageSizeMedia } from 'src/app/models/size-bgimage-media';
+import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-single-user',
   templateUrl: './single-user.component.html',
   styleUrls: ['./single-user.component.css']
 })
-export class SingleUserComponent implements OnInit {
-  @ViewChild('profile_data') container: ElementRef | undefined;
+export class SingleUserComponent implements OnInit, OnDestroy {
+  @ViewChild('profile_data') container!: ElementRef;
+  public suscription: Subscription[] = [];
   public user: SingleUser | null | undefined;
   public showSpinner = true;
-  public messageErreur = '';
   public mediaSizeList = Object.entries(ImageSizeMedia).map(([socialMediaName, imageSize]) => ({
     socialName: socialMediaName,
     imageSize: imageSize
@@ -26,26 +28,40 @@ export class SingleUserComponent implements OnInit {
     private githubService: GithubService,
     private elRef: ElementRef,
     private renderer: Renderer2,
-    public router: Router
+    public router: Router,
+    public dialog: MatDialog
   ) {}
+  ngOnDestroy(): void {
+    this.suscription.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
 
   ngOnInit(): void {
-    this.githubService.retourDetailUser$.subscribe((user: SingleUser | any) => {
-      this.showSpinner = false;
-      this.user = user;
-      document.getElementById('content')!.scrollIntoView(true);
-    });
+    this.suscription.push(
+      this.githubService.retourDetailUser$.subscribe((user: SingleUser) => {
+        this.showSpinner = false;
+        this.user = user;
+        if(user.websiteUrl && !user.websiteUrl.includes('http')) {
+          user.websiteUrl = 'https://' + user.websiteUrl;
+        }
+        document.getElementById('content')!.scrollIntoView(true);
+      })
+    );
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       const login = params.get('login');
       if (login) {
         this.githubService.obtenirDetailUser(login);
       }
     });
-    this.githubService.messageErreur$.subscribe((erreur) => {
-      document.getElementById('content')!.scrollIntoView(true);
-      this.showSpinner = false;
-      this.messageErreur = erreur;
-    });
+    this.suscription.push(
+      this.githubService.messageErreur$.subscribe((erreur) => {
+        document.getElementById('content')!.scrollIntoView(true);
+        this.showSpinner = false;
+        Utils.openAlertDialog(this.dialog, erreur);
+      })
+    );
   }
   public getImageIcon(langage: string) {
     langage = langage.toLowerCase();
@@ -75,26 +91,25 @@ export class SingleUserComponent implements OnInit {
     this.router.navigate(['/users/senegal']);
   }
   public downloadProfile() {
+    Utils.openAlertDialog(this.dialog, "Les dimensions de l'image dependront de la taille de votre écran.");
     document.getElementById('button-download')!.hidden = true;
-    document.getElementById('select-social-media')!.hidden = true;
-    const captureElement = document.querySelector('#profile_data');
-
-    html2canvas(captureElement as HTMLElement, {
+    // document.getElementById('select-social-media')!.hidden = true;
+    html2canvas(this.container.nativeElement as HTMLElement, {
       scale: 1,
       useCORS: true,
       allowTaint: true
     }).then((canvas) => {
       if (!this.selectedMediaSize) {
-        this.selectedMediaSize = ImageSizeMedia.TWITTER;
+        this.selectedMediaSize = `${this.container.nativeElement.offsetWidth}x${this.container.nativeElement.offsetHeight}`;
       }
       const ratio = this.selectedMediaSize.split('x');
-      const desiredWidth = Number(ratio[0]); // Set your desired width
-      const desiredHeight = Number(ratio[1]); // Set your desired height
+
+      const desiredWidth = Number(ratio[0]);
+      const desiredHeight = Number(ratio[1]);
 
       const tempCanvas = document.createElement('canvas');
       tempCanvas.width = desiredWidth;
       tempCanvas.height = desiredHeight;
-
       const tempContext = tempCanvas.getContext('2d');
 
       if (tempContext) {
@@ -108,7 +123,7 @@ export class SingleUserComponent implements OnInit {
     });
 
     document.getElementById('button-download')!.hidden = false;
-    document.getElementById('select-social-media')!.hidden = false;
+    // document.getElementById('select-social-media')!.hidden = false;
   }
   onChange(e: any) {
     this.selectedMediaSize = e.target.value;
