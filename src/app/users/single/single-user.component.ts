@@ -42,7 +42,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       this.githubService.retourDetailUser$.subscribe((user: SingleUser) => {
         this.showSpinner = false;
         this.user = user;
-        if(user.websiteUrl && !user.websiteUrl.includes('http')) {
+        if (user.websiteUrl && !user.websiteUrl.includes('http')) {
           user.websiteUrl = 'https://' + user.websiteUrl;
         }
         document.getElementById('content')!.scrollIntoView(true);

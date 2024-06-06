@@ -19,7 +19,7 @@ export class GithubService {
 
   public async obtenirContributionsSenegal() {
     this.appelerServiceContributions().subscribe({
-      next: (reponse: UserContributions[]) => {
+      next: (reponse) => {
         this.retourListeUsers$.next(reponse);
       },
       error: (erreur) => {
@@ -56,7 +56,7 @@ export class GithubService {
   }
 
   private appelerServiceContributions(): Observable<UserContributions[]> {
-    return this.http.get<any[]>(`${this.route}/contributions/senegal`);
+    return this.http.get<any[]>(`https://raw.githubusercontent.com/bambadiagne/github-user-stats/master/users.json`);
   }
   private appelerServiceDetail(login: string) {
     return this.http.get<any>(`${this.route}/${login}`);

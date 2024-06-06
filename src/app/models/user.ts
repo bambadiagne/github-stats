@@ -19,3 +19,6 @@ export interface SingleUser extends UserContributions {
 export interface UserContributions extends User {
   contributionsCollection: ContributionsCollection;
 }
+export interface ListResponse<T> {
+  users: T[];
+}
