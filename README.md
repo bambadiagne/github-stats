@@ -1,27 +1,68 @@
-# GithubAwards
+# GitHub Users Senegal 💻 🚀
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7.
+## Description
+This application allows you to list GitHub users located in Senegal by ranking and view individual statistics for each user. With this tool, you can, for example, know who uses a certain language (Go, Python, Java, etc.), retrieve all users from a location for your dataset, and it can also help recruiters.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Site Link
+[GitHub Users Senegal](https://github-stats-bambadiagne.vercel.app/users/senegal)
 
-## Code scaffolding
+## Technologies Used
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Frontend 💻
+- **Angular**
+- **Angular Material**
 
-## Build
+### Backend 🚀
+- **Flask**
+- **Docker**
+- **GraphQL**
+- **Cron**
+- Déployé sur **AWS** (Elastic Beanstalk + ACM)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Features
+- List of GitHub users in Senegal by ranking.
+- Display individual statistics of a user.
 
-## Running unit tests
+## Installation and Execution
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Prerequisites
+- Node.js
+- Angular CLI
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Installation
 
-## Further help
+1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/votre-compte-utilisateur/nom-du-depot-forke.git
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+2. Navigate to the project directory:
+    ```bash
+    cd nom-du-depot-forke
+    ```
+3. Install the dependencies::
+    ```bash
+    npm install
+    ```
+4. Run the application:
+    ```bash
+    ng serve
+    ```
+   Access the application via http://localhost:4200.
+
+## Contribution
+### Fork the Project
+1. Click on the "Fork" button at the top right to create a copy   of the repository in your own GitHub account.
+2. Clone the forked repository to your local machine:
+   ```bash
+   git clone https://github.com/votre-compte-utilisateur/
+   Contributions are welcome!
+
+## Authors
+- [Ahmadou Bamba Diagne](https://github.com/bambadiagne)
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for more information.
+
+# You are ready to work on this project. 🎉
