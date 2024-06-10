@@ -11,7 +11,7 @@ export class GithubService {
   public retourListeUsers$: Subject<any[]> = new Subject();
   public retourListeSearch$: Subject<any> = new Subject();
   public retourDetailUser$: Subject<SingleUser> = new Subject();
-  public route = 'https://github-user-stats.onrender.com/users';
+  public route = 'https://github-user-stats.onrender.com';
   public messageErreur$: Subject<any> = new Subject();
   public query: Map<string, string[]> = new Map<string, string[]>();
 
@@ -52,14 +52,17 @@ export class GithubService {
     });
   }
   private appelerServiceListe(): Observable<User[] | any> {
-    return this.http.get<any[]>(`${this.route}/search${this.genererQueryString(this.query)}`);
+    return this.http.get<any[]>(`${this.route}/users/search${this.genererQueryString(this.query)}`);
   }
 
   private appelerServiceContributions(): Observable<UserContributions[]> {
     return this.http.get<any[]>(`https://raw.githubusercontent.com/bambadiagne/github-user-stats/master/users.json`);
   }
   private appelerServiceDetail(login: string) {
-    return this.http.get<any>(`${this.route}/${login}`);
+    return this.http.get<any>(`${this.route}/users/${login}`);
+  }
+  public appelerHealthCheck() {
+    return this.http.get<any>(`${this.route}/healthcheck`).subscribe();
   }
 
   private genererQueryString(paramMap: Map<string, string[]>): string {

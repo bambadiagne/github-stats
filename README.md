@@ -5,7 +5,7 @@ This application allows you to list GitHub users located in Senegal by ranking a
 
 
 ## Site Link
-[GitHub Users Senegal](https://github-stats-bambadiagne.vercel.app/users/senegal)
+[GitHub Users Senegal](https://github-stats-bambadiagne.vercel.app)
 
 ## Technologies Used
 
@@ -35,11 +35,11 @@ This application allows you to list GitHub users located in Senegal by ranking a
 
 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/votre-compte-utilisateur/nom-du-depot-forke.git
+   git clone https://github.com/bambadiagne/github-stats.git
 
 2. Navigate to the project directory:
     ```bash
-    cd nom-du-depot-forke
+    cd github-stats
     ```
 3. Install the dependencies::
     ```bash
@@ -55,12 +55,11 @@ This application allows you to list GitHub users located in Senegal by ranking a
 ### Fork the Project
 1. Click on the "Fork" button at the top right to create a copy   of the repository in your own GitHub account.
 2. Clone the forked repository to your local machine:
-   ```bash
-   git clone https://github.com/votre-compte-utilisateur/
-   Contributions are welcome!
-
+3. Create branch from master, make changes and start PR   
 ## Authors
-- [Ahmadou Bamba Diagne](https://github.com/bambadiagne)
+<a href="https://github.com/bambadiagne/github-stats/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=bambadiagne/github-stats" />
+</a>
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for more information.
