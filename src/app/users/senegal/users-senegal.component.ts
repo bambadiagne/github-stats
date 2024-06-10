@@ -22,7 +22,6 @@ export class UsersSenegalComponent implements OnInit, OnDestroy {
   constructor(private githubService: GithubService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.githubService.obtenirDetailUser('bambadiagne');
     this.githubService.obtenirContributionsSenegal();
     this.suscriptions.push(
       this.githubService.retourListeUsers$.subscribe((result: any) => {
