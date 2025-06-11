@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SingleUser, User, UserContributions } from '../models/user';
 import { ApiError } from '../models/error-api';
+import { TechnoData } from '../models/technos';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class GithubService {
   public retourListeUsers$: Subject<any[]> = new Subject();
   public retourListeSearch$: Subject<any> = new Subject();
   public retourDetailUser$: Subject<SingleUser> = new Subject();
+  public retourTechnoData$: Subject<TechnoData> = new Subject();
   public route = 'https://github-user-stats.onrender.com';
   public messageErreur$: Subject<any> = new Subject();
   public query: Map<string, string[]> = new Map<string, string[]>();
@@ -18,7 +20,7 @@ export class GithubService {
   constructor(private http: HttpClient) {}
 
   public async obtenirContributionsSenegal() {
-    this.appelerServiceContributions().subscribe({
+    this.getContributions().subscribe({
       next: (reponse) => {
         this.retourListeUsers$.next(reponse);
       },
@@ -31,7 +33,7 @@ export class GithubService {
   public filtrer(query: Map<string, string[]>) {
     this.updateQuery(query);
 
-    this.appelerServiceListe().subscribe({
+    this.getListe().subscribe({
       next: (reponse: User[]) => {
         this.retourListeSearch$.next(reponse);
       },
@@ -42,7 +44,7 @@ export class GithubService {
   }
 
   public obtenirDetailUser(login: string) {
-    this.appelerServiceDetail(login).subscribe({
+    this.getDetail(login).subscribe({
       next: (reponse: SingleUser) => {
         this.retourDetailUser$.next(reponse);
       },
@@ -51,18 +53,31 @@ export class GithubService {
       }
     });
   }
-  private appelerServiceListe(): Observable<User[] | any> {
+  private getListe(): Observable<User[] | any> {
     return this.http.get<any[]>(`${this.route}/users/search${this.genererQueryString(this.query)}`);
   }
 
-  private appelerServiceContributions(): Observable<UserContributions[]> {
+  private getContributions(): Observable<UserContributions[]> {
     return this.http.get<any[]>(`https://raw.githubusercontent.com/bambadiagne/github-user-stats/master/users.json`);
   }
-  private appelerServiceDetail(login: string) {
+  private getDetail(login: string) {
     return this.http.get<any>(`${this.route}/users/${login}`);
   }
-  public appelerHealthCheck() {
+  public getHealthCheck() {
     return this.http.get<any>(`${this.route}/healthcheck`).subscribe();
+  }
+  public getTechnosSenegal() {
+    return this.http.get<TechnoData>(`${this.route}/technos`);
+  }
+  public async getTechnos() {
+    this.getTechnosSenegal().subscribe({
+      next: (reponse: TechnoData) => {
+        this.retourTechnoData$.next(reponse);
+      },
+      error: (erreur) => {
+        this.messageErreur$.next(this.handleError(erreur));
+      }
+    });
   }
 
   private genererQueryString(paramMap: Map<string, string[]>): string {

@@ -1,188 +1,258 @@
-<div id="content" class="container-xl my-5 border rounded shadow-lg">
-  <mat-spinner class="row justify-content-center mx-auto" *ngIf="showSpinner"></mat-spinner>
-  <div #profile_data>
-    <div *ngIf="!showSpinner && this.user">
-      <div class="row mb-2 mt-4">
-        <div class="d-flex flex-column flex-sm-row">
-          <div class="">
-            <img class="rounded-circle" width="100px" height="100px" [src]="user!.avatarUrl" alt="" />
-          </div>
-          <div class="mr-auto">
-            <div>
-              <span class="display-5">{{ user!.name ?? user!.login | titlecase }}</span>
-            </div>
-            <div>
-              <small *ngIf="user!.bio" class="fw-lighter text-dark">{{ user!.bio }}</small>
-            </div>
-          </div>
-          <div class="d-flex flex-row">
-            <div id="button-download" class="ml-auto">
-              <button class="btn p-2" (click)="downloadProfile()">
-                <i class="btn btn-primary ri-download-line"></i>
-              </button>
-            </div>
-            <!-- <div id="select-social-media">
-              <select
-                (change)="onChange($event)"
-                class="form-select form-select-lg mb-3"
-                aria-label=".form-select-lg example"
-              >
-                <option value="" disabled selected>Selectionner un réseau social</option>
-                <option *ngFor="let ratio of mediaSizeList" [value]="ratio.imageSize">{{ ratio.socialName }}</option>
-              </select>
-            </div> -->
-          </div>
+<!-- Modern GitHub Profile Component -->
+<div class="github-profile-container">
+  <!-- Loading State -->
+  <div class="loading-overlay" *ngIf="showSpinner">
+    <div class="modern-spinner">
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+    </div>
+    <p>Chargement du profil...</p>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="profile-content" *ngIf="!showSpinner && user" #profile_data>
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div class="profile-avatar-section">
+        <div class="avatar-container">
+          <img [src]="user!.avatarUrl" [alt]="user!.name || user!.login" class="profile-avatar" />
+          <div class="avatar-ring"></div>
         </div>
       </div>
-      <div>
-        <p class="display-5">Github Stats</p>
-        <div class="my-2">
-          <p class="h4 mb-3">Top 5 langages</p>
-          <div class="d-flex flex-sm-row flex-column flex-wrap">
-            <div *ngFor="let langage of user!.most_used_languages; let i = index" class="my-sm-3 mb-4">
-              <span
-                class="text-light fw-bolder border mx-2 p-3 w-100 shadow-lg"
-                style="min-width: 120px; background-color: #b1b1b1; border-color: #b1b1b1"
-              >
-                {{ langage }} &nbsp;
+
+      <div class="profile-info">
+        <h1 class="profile-name">{{ user!.name ?? user!.login | titlecase }}</h1>
+        <p class="profile-bio" *ngIf="user!.bio">{{ user!.bio }}</p>
+      </div>
+
+      <div class="profile-actions">
+        <button id="download-btn" class="download-btn" (click)="downloadProfile()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7,10 12,15 17,10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Télécharger
+        </button>
+      </div>
+    </div>
+
+    <!-- GitHub Stats Section -->
+    <div class="stats-section">
+      <div class="section-title">
+        <h2>GitHub Stats</h2>
+      </div>
+
+      <!-- Top Languages -->
+      <div class="languages-section">
+        <h3 class="subsection-title">Top 5 langages</h3>
+        <div class="languages-grid">
+          <div
+            *ngFor="let langage of user!.most_used_languages; let i = index"
+            class="language-card"
+            [style.animation-delay.ms]="i * 100"
+          >
+            <div class="language-content">
+              <span class="language-name">{{ langage }}</span>
+              <div class="language-icon">
                 <img
-                  onload="SVGInject(this)"
                   [src]="getImageIcon(langage)"
                   (error)="onError(langage)"
                   [id]="langage"
-                  class="rounded img-svg"
-                  width="40"
-                  height="40"
-                  alt=""
+                  [alt]="langage + ' icon'"
+                  class="tech-icon"
                 />
-              </span>
+              </div>
             </div>
           </div>
-          <div class="my-2">
-            <div *ngIf="user!.most_starred_repo" class="my-3 row">
-              <hr class="d-block d-sm-none" />
-              <div class="col-sm d-flex flex-column">
-                <div class="col">
-                  <p class="fw-bold d-inline-flex align-items-center">Total commits</p>
-                </div>
-                <div>
-                  <p class="fw-bolder h4">{{ user!.contributionsCollection.totalCommitContributions }}</p>
-                </div>
-              </div>
-              <hr class="d-block d-sm-none" />
-              <div class="col-sm d-flex flex-column">
-                <div class="col">
-                  <p class="fw-bold d-inline-flex align-items-center">Contributions publiques</p>
-                </div>
-                <div class="col-auto">
-                  <p class="fw-bolder h4">
-                    {{
-                      user!.contributionsCollection.contributionCalendar.totalContributions -
-                        user!.contributionsCollection.restrictedContributionsCount
-                    }}
-                  </p>
-                </div>
-              </div>
-              <hr class="d-block d-sm-none" />
-              <div class="col-sm d-flex flex-column">
-                <div class="col">
-                  <p class="fw-bold d-inline-flex align-items-center">Contributions(publique+privée)</p>
-                </div>
-                <div class="col-auto">
-                  <p class="fw-bolder h4">
-                    {{ user!.contributionsCollection.contributionCalendar.totalContributions }}
-                  </p>
-                </div>
-              </div>
-              <hr class="d-block d-sm-none" />
-            </div>
-            <p class="h4">Best repo</p>
-            <div *ngIf="user!.most_starred_repo" class="my-3 row">
-              <hr class="d-block d-sm-none" />
-              <div class="col-sm d-flex flex-column">
-                <div class="col">
-                  <p class="fw-bold d-inline-flex align-items-center">
-                    Nom du projet<i class="ri-git-repository-line ri-xl"></i>
-                  </p>
-                </div>
-                <div>
-                  <p class="fw-bolder">{{ user!.most_starred_repo!.name }}</p>
-                </div>
-              </div>
-              <hr class="d-block d-sm-none" />
-              <div class="col-sm d-flex flex-column">
-                <div class="col">
-                  <p class="fw-bold d-inline-flex align-items-center">
-                    Nombre d'etoiles<i class="ri-star-line ri-xl"></i>
-                  </p>
-                </div>
-                <div class="col-auto">
-                  <p class="fw-bolder h4">{{ user!.most_starred_repo!.stargazerCount! }}</p>
-                </div>
-              </div>
-              <hr class="d-block d-sm-none" />
-              <div class="col-sm d-flex flex-column">
-                <div class="col">
-                  <p class="fw-bold d-inline-flex align-items-center">
-                    Nombre de forks<img src="https://img.icons8.com/ios-glyphs/30/null/code-fork.png" />
-                  </p>
-                </div>
-                <div class="col-auto">
-                  <p class="fw-bolder h4">{{ user!.most_starred_repo!.forkCount }}</p>
-                </div>
-              </div>
-              <hr class="d-block d-sm-none" />
-            </div>
-            <div *ngIf="!user!.most_starred_repo" class="my-3 text-center display-5">Aucun dépot disponbile</div>
-            <!-- <div class="my-1 row"> -->
+        </div>
+      </div>
 
-            <!-- </div> -->
-            <!-- <div class="d-flex">
-            <div class="">
-                <span class="fw-bold">Nom du projet:{{user!.most_starred_repo.name}} </span>
+      <!-- Contribution Stats -->
+      <div class="contributions-section">
+        <div class="stats-grid">
+          <div class="stat-card commits">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="4" />
+                <path d="m1.05 12 10.5 12L23.95 12l-10.5-12z" />
+              </svg>
             </div>
-            <div>
-                <span >{{user!.most_starred_repo.stargazerCount}}<i class="ri-star-line ri-xl"></i>{{user!.most_starred_repo.forkCount}}<img  src="https://img.icons8.com/ios-glyphs/30/null/code-fork.png"/></span>
-      
+            <div class="stat-content">
+              <div class="stat-label">Total commits</div>
+              <div class="stat-value">{{ user!.contributionsCollection.totalCommitContributions }}</div>
             </div>
-        </div> -->
-            <div class="my-2 d-flex flex-column flex-sm-row justify-content-center flex-wrap">
-              <div class="w-50 w-sm-100">
-                <span class="d-inline-flex align-items-center"
-                  ><i class="ri-twitter-fill ri-2x"></i> &nbsp;<a
-                    [ngClass]="user.twitterUsername ? 'pe-auto' : 'pe-none'"
-                    target="_blank"
-                    class="text-decoration-none"
-                    style="color: inherit"
-                    href="{{ user.twitterUsername ? 'https://twitter.com/' + user.twitterUsername : '#' }}"
-                    >{{ user.twitterUsername ?? 'Non renseigné' }}</a
-                  >
-                </span>
+          </div>
+
+          <div class="stat-card public">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Contributions publiques</div>
+              <div class="stat-value">
+                {{
+                  user!.contributionsCollection.contributionCalendar.totalContributions -
+                    user!.contributionsCollection.restrictedContributionsCount
+                }}
               </div>
-              <div class="w-50 w-sm-100">
-                <span class="d-inline-flex align-items-center"
-                  ><i class="ri-global-line ri-2x"></i
-                  ><a
-                    [ngClass]="user!.websiteUrl ? 'pe-auto' : 'pe-none'"
-                    class="text-decoration-none"
-                    style="color: inherit"
-                    target="_blank"
-                    href="{{ user!.websiteUrl ?? '#' }}"
-                    disabled="!user!.websiteUrl===''"
-                    >&nbsp;{{ user.websiteUrl ?? 'Non renseigné' }}
-                  </a></span
-                >
+            </div>
+          </div>
+
+          <div class="stat-card total">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="m2 17 10 5 10-5" />
+                <path d="m2 12 10 5 10-5" />
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Contributions (publique + privée)</div>
+              <div class="stat-value">{{ user!.contributionsCollection.contributionCalendar.totalContributions }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Best Repository -->
+      <div class="repository-section">
+        <h3 class="subsection-title">Best repo</h3>
+
+        <div class="repo-card" *ngIf="user!.most_starred_repo">
+          <div class="repo-header">
+            <div class="repo-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                />
+              </svg>
+            </div>
+            <h4 class="repo-name">{{ user!.most_starred_repo!.name }}</h4>
+          </div>
+
+          <div class="repo-stats">
+            <div class="repo-stat">
+              <div class="repo-stat-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon
+                    points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+                  />
+                </svg>
               </div>
-              <div class="w-50 w-sm-100">
-                <span class="d-inline-flex align-items-center"
-                  ><i class="ri-at-line ri-2x"></i>&nbsp;{{ user.email ? user.email : 'Non renseigné' }}</span
-                >
+              <span class="repo-stat-value">{{ user!.most_starred_repo!.stargazerCount! }}</span>
+              <span class="repo-stat-label">étoiles</span>
+            </div>
+
+            <div class="repo-stat">
+              <div class="repo-stat-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 3v12l4-4 4 4V3" />
+                </svg>
               </div>
-              <div class="w-50 w-sm-100">
-                <span class="d-inline-flex align-items-center"
-                  ><i class="ri-home-4-line ri-2x"></i>&nbsp;{{ user.location ?? 'Non renseigné' }}</span
-                >
-              </div>
+              <span class="repo-stat-value">{{ user!.most_starred_repo!.forkCount }}</span>
+              <span class="repo-stat-label">forks</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="no-repo-message" *ngIf="!user!.most_starred_repo">
+          <div class="no-repo-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+              />
+            </svg>
+          </div>
+          <p>Aucun dépôt disponible</p>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="social-section">
+        <div class="social-grid">
+          <div class="social-item">
+            <div class="social-icon twitter">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 1200 1227"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M714.1 536.9L1174.3 0H1068.9L663.6 484.8L340.9 0H0L480.4 710.3L0 1227H105.9L531.1 709.9L879.1 1227H1220L714.1 536.9ZM581.3 641.6L538.5 582.4L173.3 85.6H307.5L618.3 535.3L661.1 594.5L1034.7 1123.1H901.5L581.3 641.6Z"
+                />
+              </svg>
+            </div>
+
+            <div class="social-content">
+              <a
+                [ngClass]="user.twitterUsername ? 'active-link' : 'inactive-link'"
+                target="_blank"
+                [href]="user.twitterUsername ? 'https://twitter.com/' + user.twitterUsername : '#'"
+              >
+                {{ user.twitterUsername ?? 'Non renseigné' }}
+              </a>
+            </div>
+          </div>
+
+          <div class="social-item">
+            <div class="social-icon website">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="4" width="18" height="16" rx="2" ry="2" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+                <circle cx="7" cy="7" r="1" />
+                <circle cx="11" cy="7" r="1" />
+                <circle cx="15" cy="7" r="1" />
+              </svg>
+            </div>
+            <div class="social-content">
+              <a
+                [ngClass]="user!.websiteUrl ? 'active-link' : 'inactive-link'"
+                target="_blank"
+                [href]="user!.websiteUrl ?? '#'"
+              >
+                {{ user.websiteUrl ?? 'Non renseigné' }}
+              </a>
+            </div>
+          </div>
+
+          <div class="social-item">
+            <div class="social-icon email">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            </div>
+            <div class="social-content">
+              <span>{{ user.email ? user.email : 'Non renseigné' }}</span>
+            </div>
+          </div>
+
+          <div class="social-item">
+            <div class="social-icon location">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+            <div class="social-content">
+              <span>{{ user.location ?? 'Non renseigné' }}</span>
             </div>
           </div>
         </div>

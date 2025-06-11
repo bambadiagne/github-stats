@@ -1,0 +1,18 @@
+.canvas-wrapper{
+    max-height: 400px;
+    width: 100%;
+}
+canvas{
+  width: 100% !important;
+  height: 100% !important; 
+  max-width: 700px; 
+  max-height: 400px; 
+}
+@media (max-width: 768px) {
+  canvas{
+    max-height: 700px;
+  }
+  .canvas-wrapper{
+    max-height: 700px;
+  }
+}

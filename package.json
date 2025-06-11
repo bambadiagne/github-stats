@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prettier": "prettier --config .prettierrc src/**/*.{ts,html} --write",
-    "dev:docker":"ng serve --host 0.0.0.0 --poll 1000 --disable-host-check"
+    "dev:docker": "ng serve --watch --configuration development --host 0.0.0.0 --poll 2000 --disable-host-check"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +27,7 @@
     "@ng-bootstrap/ng-bootstrap": "^13.0.0",
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.2.0",
+    "chart.js": "^4.4.9",
     "dom-to-image": "^2.6.0",
     "html2canvas": "^1.4.1",
     "ng-lazyload-image": "^9.1.3",

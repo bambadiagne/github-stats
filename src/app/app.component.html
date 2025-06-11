@@ -1,4 +1,4 @@
-<div class="container-xl">
+<div class="">
   <mat-toolbar class="container-fluid w-100" color="primary">
     <mat-toolbar-row>
       <button mat-icon-button>
@@ -7,8 +7,8 @@
       <h1 class="d-none d-lg-block">Github Stats</h1>
       <span class="menu-spacer"></span>
       <div class="d-none d-lg-block">
-        <a mat-button [routerLink]="'/users/senegal'">Senegal contributions</a>
-        <a mat-button [routerLink]="'/users'">World Wide</a>
+        <a mat-button [routerLink]="'/users/senegal'">/&nbsp;🇸🇳</a>
+        <a mat-button [routerLink]="'/users'">/&nbsp;🌍</a>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
@@ -22,31 +22,8 @@
 
     <a mat-list-item [routerLink]="'/users/senegal'">Senegal contributions</a>
     <a mat-list-item [routerLink]="'/users'">World Wide</a>
-
-    <mat-sidenav-content class="w-100 container-xl">
-      <div class="my-5">
-        <div class="jumbotron border rounded p-5 shadow-lg my-5">
-          <h1 class="display-4">Bienvenue,cher visiteur!</h1>
-          <p class="lead text-reduce">
-            Github Users Stats est une application qui vous permet par exemple de savoir qui utilise un certain langage
-            (go, python, java,...), récupérer tous les utilisateurs d'un lieu pour votre ensemble de données par
-            exemple, il peut aussi aider les recruteurs...
-          </p>
-          <hr class="my-4" />
-          <p>
-            Le projet est opensource.
-            <a href="https://github.com/bambadiagne/github-stats" target="_blank"
-              ><img src="https://img.shields.io/github/stars/bambadiagne/github-stats?style=social" alt=""
-            /></a>
-          </p>
-          <p>
-            L'API est aussi opensource.
-            <a href="https://github.com/bambadiagne/github-user-stats" target="_blank"
-              ><img src="https://img.shields.io/github/stars/bambadiagne/github-user-stats?style=social" alt=""
-            /></a>
-          </p>
-        </div>
-      </div>
+    <mat-sidenav-content class="w-100"> </mat-sidenav-content>
+    <mat-sidenav-content class="w-100">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>

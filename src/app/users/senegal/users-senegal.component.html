@@ -1,54 +1,174 @@
-<div class="my-5">
-  <div class="my-2">
-    <p class="text-center">
-      Il y'a <span class="font-weight-bold"> {{ allSenegaleseData.length }}</span> utilisateurs de github localisés au
-      Sénégal
-    </p>
-    <p class="fw-bold text-center">Les données sont mises à jour chaque heure🚀!!!</p>
-  </div>
-  <mat-tab-group
-    id="content"
-    (selectedTabChange)="changeTab($event)"
-    mat-stretch-tabs
-    mat-align-tabs="center"
-    [(selectedIndex)]="this.currentTab"
-    [dynamicHeight]="true"
-    backgroundColor="primary"
-  >
-    <div class="row">
-      <div class="col">
-        <mat-tab label="Total de commits">
-          <mat-spinner class="row justify-content-center mx-auto" *ngIf="isLoading"></mat-spinner>
-
-          <app-users-table
-            *ngIf="currentTab === 0"
-            [displayedColumns]="displayedColumns"
-            [dataSource]="dataSource"
-          ></app-users-table>
-        </mat-tab>
+<!-- Modern GitHub Users Stats Component -->
+<div class="github-stats-container">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="hero-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+            fill="currentColor"
+          />
+        </svg>
       </div>
-      <div class="col">
-        <mat-tab label="Total de contributions(publique)">
-          <mat-spinner class="row justify-content-center mx-auto" *ngIf="isLoading"></mat-spinner>
-          <app-users-table
-            *ngIf="currentTab === 1"
-            [displayedColumns]="displayedColumns"
-            [dataSource]="dataSource"
-          ></app-users-table>
-        </mat-tab>
+      <h1 class="hero-title">GitHub Users Stats</h1>
+      <p class="hero-description">
+        Explorez facilement la répartition des technologies utilisées par les développeurs du Sénégal
+      </p>
+
+      <!-- Key Features -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📍</div>
+          <div class="feature-content">
+            <h3>Filtrage géographique</h3>
+            <p>Récupère tous les utilisateurs GitHub d'un lieu spécifique</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💻</div>
+          <div class="feature-content">
+            <h3>Filtrage technologique</h3>
+            <p>Identifie les utilisateurs par langage de programmation</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <div class="feature-content">
+            <h3>Recrutement & Analyse</h3>
+            <p>Outil pour détecter les profils techs et comprendre les tendances</p>
+          </div>
+        </div>
       </div>
 
-      <div class="col">
-        <mat-tab label="Total de contributons (publique + privé)">
-          <mat-spinner class="row justify-content-center mx-auto" *ngIf="isLoading"></mat-spinner>
-          <app-users-table
-            *ngIf="currentTab === 2"
-            [displayedColumns]="displayedColumns"
-            [dataSource]="dataSource"
-          ></app-users-table>
-        </mat-tab>
+      <!-- GitHub Links -->
+      <div class="github-links">
+        <a href="https://github.com/bambadiagne/github-stats" target="_blank" class="github-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          Frontend
+          <img
+            src="https://img.shields.io/github/stars/bambadiagne/github-stats?style=social"
+            alt="Stars"
+            class="github-stars"
+          />
+        </a>
+        <a href="https://github.com/bambadiagne/github-user-stats" target="_blank" class="github-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          API
+          <img
+            src="https://img.shields.io/github/stars/bambadiagne/github-user-stats?style=social"
+            alt="Stars"
+            class="github-stars"
+          />
+        </a>
       </div>
     </div>
-    <div></div>
-  </mat-tab-group>
+  </div>
+
+  <!-- Stats Overview -->
+  <div class="stats-overview">
+    <div class="stats-card">
+      <div class="stats-number">{{ allSenegaleseData.length }}</div>
+      <div class="stats-label">Utilisateurs GitHub au Sénégal</div>
+    </div>
+    <div class="update-indicator">
+      <div class="pulse-dot"></div>
+      <span>Données mises à jour chaque semaine</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Custom Tab Navigation -->
+    <mat-tab-group
+      id="content"
+      (selectedTabChange)="changeTab($event)"
+      mat-stretch-tabs
+      mat-align-tabs="center"
+      [(selectedIndex)]="this.currentTab"
+      [dynamicHeight]="true"
+      backgroundColor="primary"
+    >
+      <div class="row">
+        <div class="col">
+          <mat-tab label="Total de commits">
+            <app-users-table
+              *ngIf="currentTab === 0"
+              [displayedColumns]="displayedColumns"
+              [dataSource]="dataSource"
+            ></app-users-table>
+          </mat-tab>
+        </div>
+        <div class="col">
+          <mat-tab label="Total de contributions(publique)">
+            <app-users-table
+              *ngIf="currentTab === 1"
+              [displayedColumns]="displayedColumns"
+              [dataSource]="dataSource"
+            ></app-users-table>
+          </mat-tab>
+        </div>
+
+        <div class="col table-container">
+          <mat-tab label="Total de contributons (publique + privé)">
+            <app-users-table
+              *ngIf="currentTab === 2"
+              [displayedColumns]="displayedColumns"
+              [dataSource]="dataSource"
+            ></app-users-table>
+          </mat-tab>
+        </div>
+      </div>
+      <div></div>
+    </mat-tab-group>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <div class="section-header">
+      <h2 class="hero-title">Statistiques des Technologies</h2>
+      <p class="hero-description">Analyse détaillée de la répartition des technologies/framework</p>
+    </div>
+
+    <div class="loading-state" *ngIf="isLoading">
+      <div class="modern-spinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+      </div>
+    </div>
+
+    <div class="charts-grid" *ngIf="!isLoading">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Répartition par Technologies</h3>
+          <p>Distribution des langages utilisés</p>
+        </div>
+        <div class="chart-container">
+          <app-chart [data]="doughChartProps.data" type="pie" [options]="doughChartProps.options"></app-chart>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Popularité des Technologies</h3>
+          <p>Nombre de projets par domaine</p>
+        </div>
+        <div class="chart-container">
+          <app-chart [data]="barChartProps.data" type="bar" [options]="barChartProps.options"></app-chart>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 *ngIf="!isLoading" class="hero-title text-center">Analyse sur {{ userTechnosData.total_repos }} dépôts</h3>
+    </div>
+  </div>
 </div>
