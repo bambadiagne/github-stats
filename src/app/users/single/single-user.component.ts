@@ -92,7 +92,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   }
   public downloadProfile() {
     Utils.openAlertDialog(this.dialog, "Les dimensions de l'image dependront de la taille de votre écran.");
-    document.getElementById('button-download')!.hidden = true;
+    document.getElementById('download-btn')!.hidden = true;
     // document.getElementById('select-social-media')!.hidden = true;
     html2canvas(this.container.nativeElement as HTMLElement, {
       scale: 1,
@@ -122,7 +122,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       }
     });
 
-    document.getElementById('button-download')!.hidden = false;
+    document.getElementById('download-btn')!.hidden = false;
     // document.getElementById('select-social-media')!.hidden = false;
   }
   onChange(e: any) {

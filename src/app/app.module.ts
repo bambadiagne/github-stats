@@ -16,6 +16,7 @@ import { TagComponent } from './shared/tag/tag.component';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { CustomDialogComponent } from './shared/custom-dialog/custom-dialog.component';
+import { ChartComponent } from './shared/chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CustomDialogComponent } from './shared/custom-dialog/custom-dialog.comp
     SingleUserComponent,
     TagComponent,
     SanitizeHtmlPipe,
-    CustomDialogComponent
+    CustomDialogComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,

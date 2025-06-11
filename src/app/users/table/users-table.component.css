@@ -20,4 +20,26 @@
 }
   }
 
-  
+  .white-form-field {
+  color: white;
+
+  .mat-form-field-label,
+  .mat-input-element,
+  .mat-hint,
+  .mat-form-field-underline::before {
+    color: white !important;
+    border-bottom-color: white !important;
+  }
+
+  .mat-form-field-underline {
+    background-color: white !important;
+  }
+
+  .mat-form-field-ripple {
+    background-color: white !important;
+  }
+
+  input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
