@@ -17,7 +17,7 @@ export class CustomDialogComponent implements OnInit {
         this.cancelButtonText = data.buttonText.cancel || this.cancelButtonText;
       }
     }
-    this.dialogRef.updateSize('300vw', '300vw');
+    this.dialogRef.updateSize('min(92vw, 560px)', 'auto');
   }
 
   onConfirmClick(): void {

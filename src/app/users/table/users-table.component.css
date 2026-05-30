@@ -1,45 +1,80 @@
-.clickable{
+.users-table-card {
+  border: 1px solid #475569;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #172135;
+  box-shadow: 0 16px 36px rgba(2, 6, 23, 0.28);
+}
+
+.table-header {
+  padding: 14px 16px 6px;
+  border-bottom: 1px solid #334155;
+  background: #111827;
+}
+
+.table-filter {
+  width: min(420px, 100%);
+}
+
+.table-scroll {
+  overflow-x: hidden;
+}
+
+.stats-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th.mat-header-cell {
+  background: #0f172a;
+  color: #f8fafc;
+  font-weight: 800;
+  border-bottom-color: #334155;
+}
+
+td.mat-cell {
+  background: #172135;
+  color: #f8fafc;
+  font-weight: 600;
+  border-bottom-color: #334155;
   cursor: pointer;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
-@media only screen and (max-width: 600px) {
-    .text-reduce{
-      font-size: 10px;
-    }
-    
-  }
 
-@media only screen and (max-width: 576px) {
-    .text-reduce{
-      font-size: 10px;
-    }
-    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
-      padding-left: 0px;
-  }
-  th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
-    padding-right: 0px;
+tr.mat-row:nth-child(even) td.mat-cell {
+  background: #1e293b;
 }
+
+tr.mat-row:hover td.mat-cell {
+  background: #243149;
+}
+
+.stats-table td img {
+  width: 42px !important;
+  height: 42px !important;
+  object-fit: cover;
+  border-radius: 999px;
+}
+
+.empty-state {
+  margin: 18px 0;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+@media only screen and (max-width: 768px) {
+  .text-reduce {
+    font-size: 0.82rem;
   }
 
-  .white-form-field {
-  color: white;
-
-  .mat-form-field-label,
-  .mat-input-element,
-  .mat-hint,
-  .mat-form-field-underline::before {
-    color: white !important;
-    border-bottom-color: white !important;
-  }
-
-  .mat-form-field-underline {
-    background-color: white !important;
-  }
-
-  .mat-form-field-ripple {
-    background-color: white !important;
-  }
-
-  input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+  th.mat-header-cell,
+  td.mat-cell {
+    padding-left: 6px;
+    padding-right: 6px;
   }
 }

@@ -1,0 +1,29 @@
+.tag-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin: 6px 6px 0 0;
+	padding: 7px 12px;
+	border-radius: 999px;
+	font-size: 0.9rem;
+	font-weight: 700;
+	background: #111827;
+}
+
+.tag-text {
+	line-height: 1;
+	color: #cbd5e1;
+}
+
+.tag-remove {
+	width: 20px;
+	height: 20px;
+	border: 0;
+	border-radius: 50%;
+	background: #334155;
+	color: #f8fafc;
+	font-size: 0.72rem;
+	line-height: 1;
+	font-weight: 800;
+	cursor: pointer;
+}

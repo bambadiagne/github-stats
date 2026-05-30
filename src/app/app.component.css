@@ -1,16 +1,96 @@
-.example-container {
-  width: 500px;
-  height: 300px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+.app-shell {
+  min-height: 100vh;
+  background: transparent;
 }
 
-.example-sidenav-content {
-  display: flex;
-  height: 100%;
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 72px;
+  padding: 0 12px;
+  background: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #334155;
+}
+
+.menu-btn {
+  color: #f8fafc;
+}
+
+.menu-spacer {
+  flex: 1 1 auto;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #f8fafc;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #00853f, #fcd116, #e31b23);
+  color: #111827;
+  font-weight: 800;
+  font-size: 0.8rem;
 }
 
-.example-sidenav {
-  padding: 20px;
+.brand-text {
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.topbar-nav {
+  gap: 10px;
+}
+
+.top-link {
+  border-radius: 999px;
+  color: #e2e8f0;
+  background: rgba(148, 163, 184, 0.12);
+}
+
+.top-link:hover {
+  color: #111827;
+  background: linear-gradient(135deg, #00853f, #fcd116, #e31b23);
+}
+
+.top-link-active {
+  color: #111827;
+  background: linear-gradient(135deg, #00853f, #fcd116, #e31b23);
+}
+
+.app-container {
+  min-height: calc(100vh - 72px);
+  background: transparent;
+}
+
+.app-sidenav {
+  width: 280px;
+  padding: 10px 0;
+  background: #111827;
+  color: #f8fafc;
+  border-right: 1px solid #334155;
+}
+
+.sidenav-header {
+  padding: 18px 24px 8px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.app-content {
+  min-height: calc(100vh - 72px);
 }

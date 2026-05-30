@@ -109,8 +109,9 @@ export class UsersSenegalComponent implements OnInit, OnDestroy {
           {
             label: label,
             data: data,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(0, 133, 63, 0.75)',
+            borderColor: '#00853F',
+            hoverBackgroundColor: '#FCD116',
             borderWidth: 1
           }
         ]
@@ -118,12 +119,34 @@ export class UsersSenegalComponent implements OnInit, OnDestroy {
       options: {
         responsive: true,
         plugins: {
-          legend: { display: true },
+          legend: {
+            display: true,
+            labels: {
+              color: '#94A3B8',
+              boxWidth: 14,
+              padding: 12
+            }
+          },
+          tooltip: {
+            backgroundColor: '#111827',
+            titleColor: '#F8FAFC',
+            bodyColor: '#CBD5E1',
+            borderColor: '#334155',
+            borderWidth: 1
+          },
           title: { display: false }
         },
         scales: {
-          x: { beginAtZero: true },
-          y: { beginAtZero: true }
+          x: {
+            beginAtZero: true,
+            ticks: { color: '#94A3B8' },
+            grid: { color: 'rgba(148, 163, 184, 0.18)' }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#94A3B8' },
+            grid: { color: 'rgba(148, 163, 184, 0.18)' }
+          }
         }
       }
     };
@@ -137,17 +160,31 @@ export class UsersSenegalComponent implements OnInit, OnDestroy {
           {
             label: label,
             data: data,
-            backgroundColor: this.generateColors(data.length)
+            backgroundColor: this.generateColors(data.length),
+            hoverBackgroundColor: this.generateColors(data.length),
+            borderColor: '#0F172A',
+            borderWidth: 2
           }
         ]
       },
       options: {
-        // responsive: true,
-
+        responsive: true,
         plugins: {
           legend: {
             display: true,
-            position: 'bottom'
+            position: 'bottom',
+            labels: {
+              color: '#94A3B8',
+              boxWidth: 14,
+              padding: 12
+            }
+          },
+          tooltip: {
+            backgroundColor: '#111827',
+            titleColor: '#F8FAFC',
+            bodyColor: '#CBD5E1',
+            borderColor: '#334155',
+            borderWidth: 1
           },
           title: { display: false }
         }
@@ -155,12 +192,25 @@ export class UsersSenegalComponent implements OnInit, OnDestroy {
     };
   }
   generateColors(length: number) {
+    const palette = [
+      '#38BDF8',
+      '#22C55E',
+      '#F97316',
+      '#A855F7',
+      '#EAB308',
+      '#EF4444',
+      '#14B8A6',
+      '#F43F5E',
+      '#8B5CF6',
+      '#06B6D4',
+      '#84CC16',
+      '#FB7185',
+      '#10B981',
+      '#F59E0B'
+    ];
     const colors = [];
     for (let i = 0; i < length; i++) {
-      const r = Math.floor(Math.random() * 256);
-      const g = Math.floor(Math.random() * 256);
-      const b = Math.floor(Math.random() * 256);
-      colors.push(`rgba(${r}, ${g}, ${b}, 0.7)`);
+      colors.push(palette[i % palette.length]);
     }
     return colors;
   }

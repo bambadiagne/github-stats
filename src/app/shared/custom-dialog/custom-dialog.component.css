@@ -1,0 +1,10 @@
+.dialog-content {
+	min-width: min(480px, 90vw);
+	max-height: 65vh;
+	color: #e2e8f0;
+}
+
+.dialog-message {
+	font-size: 0.96rem;
+	line-height: 1.55;
+}

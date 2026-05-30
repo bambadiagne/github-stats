@@ -1,0 +1,144 @@
+.search-page {
+	max-width: 1200px;
+}
+
+.search-header {
+	margin-bottom: 22px;
+}
+
+.search-title {
+	margin: 0;
+	font-size: clamp(2rem, 5vw, 3.2rem);
+	font-weight: 800;
+	color: #f8fafc;
+}
+
+.search-subtitle {
+	margin: 8px 0 0;
+	max-width: 760px;
+	color: #94a3b8;
+}
+
+.search-panel {
+	padding: 20px;
+	background: #1e293b;
+	border-radius: 20px;
+	border: 1px solid #334155;
+	box-shadow: 0 16px 36px rgba(2, 6, 23, 0.34);
+}
+
+.search-form {
+	display: grid;
+	gap: 18px;
+}
+
+.field-group label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 700;
+	color: #e2e8f0;
+}
+
+.form-control {
+	min-height: 50px;
+	border-radius: 12px;
+	border: 1px solid #475569;
+	color: #f8fafc;
+	background: #111827;
+	box-shadow: none;
+}
+
+.form-control::placeholder {
+	color: #64748b;
+}
+
+.form-control:focus {
+	border-color: #fcd116;
+	box-shadow: 0 0 0 4px rgba(252, 209, 22, 0.2);
+}
+
+.input-stack {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 10px;
+}
+
+.btn-add {
+	border: 0;
+	border-radius: 12px;
+	padding: 0 20px;
+	background: #111827;
+	color: #f8fafc;
+	font-weight: 700;
+	border: 1px solid #475569;
+}
+
+.btn-add:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.tag-list {
+	margin-top: 10px;
+}
+
+.action-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 6px;
+}
+
+.btn {
+	border-radius: 12px;
+	padding: 12px 22px;
+	font-weight: 700;
+}
+
+.btn-search {
+	background: linear-gradient(135deg, #00853f, #fcd116, #e31b23);
+	color: #111827;
+}
+
+.btn-reset {
+	border: 1px solid #475569;
+	background: #111827;
+	color: #cbd5e1;
+}
+
+.results-summary {
+	margin-top: 20px;
+	color: #f8fafc;
+	font-weight: 700;
+}
+
+.results-tabs {
+	margin-top: 14px;
+	background: #1e293b;
+	border-radius: 20px;
+	overflow: hidden;
+	border: 1px solid #334155;
+	box-shadow: 0 16px 36px rgba(2, 6, 23, 0.34);
+}
+
+.results-body {
+	padding: 18px;
+}
+
+.results-spinner {
+	margin: 50px auto;
+}
+
+@media (max-width: 768px) {
+	.search-panel {
+		padding: 14px;
+	}
+
+	.input-stack {
+		grid-template-columns: 1fr;
+	}
+
+	.btn-add {
+		min-height: 46px;
+	}
+}

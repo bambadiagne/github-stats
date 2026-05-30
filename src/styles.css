@@ -1,10 +1,76 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --bg-page: #0f172a;
+  --bg-card: #1e293b;
+  --bg-surface: #111827;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-green: #00853f;
+  --accent-yellow: #fcd116;
+  --accent-red: #e31b23;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --shadow-soft: 0 18px 45px rgba(2, 6, 23, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
 
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  color: var(--text-primary);
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  background: var(--bg-page);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-yellow), var(--accent-red));
+}
+
+.mat-tab-label {
+  font-weight: 700;
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+.mat-tab-label.mat-tab-label-active {
+  color: var(--text-primary);
+}
+
+.mat-paginator {
+  background: #172135;
+  border-top: 1px solid #334155;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #334155;
+}
+
+.mat-form-field-label,
+.mat-input-element,
+.mat-select-value,
+.mat-select-arrow,
+.mat-paginator,
+.mat-paginator-page-size-label,
+.mat-paginator-range-label {
+  color: var(--text-secondary) !important;
 }

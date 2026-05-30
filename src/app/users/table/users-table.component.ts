@@ -44,11 +44,14 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
         return `<span>${element[column] ?? 'Non renseigné'}</span>`;
     }
   }
-  public getRoute(event: any) {
-    const goRoute = event.target.getAttribute('data-link');
-    console.log('route', goRoute);
+  public getRoute(element: any) {
+    const login = element?.login?.trim();
 
-    this.router.navigate(['/users', goRoute]);
+    if (!login) {
+      return;
+    }
+
+    this.router.navigate(['/users', login]);
   }
 
   applyFilter(event: Event) {

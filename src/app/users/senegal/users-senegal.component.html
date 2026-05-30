@@ -1,5 +1,5 @@
 <!-- Modern GitHub Users Stats Component -->
-<div class="github-stats-container">
+<section class="github-stats-container">
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="hero-content">
@@ -19,21 +19,38 @@
       <!-- Key Features -->
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">📍</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
           <div class="feature-content">
             <h3>Filtrage géographique</h3>
             <p>Récupère tous les utilisateurs GitHub d'un lieu spécifique</p>
           </div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">💻</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="14" rx="2" ry="2" />
+              <line x1="8" y1="20" x2="16" y2="20" />
+              <line x1="12" y1="18" x2="12" y2="20" />
+            </svg>
+          </div>
           <div class="feature-content">
             <h3>Filtrage technologique</h3>
             <p>Identifie les utilisateurs par langage de programmation</p>
           </div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🧠</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9.5 3a3.5 3.5 0 0 0-3.2 5A3.5 3.5 0 0 0 7 14.8V17a2 2 0 0 0 2 2h1v-4H8.8" />
+              <path d="M14.5 3a3.5 3.5 0 0 1 3.2 5 3.5 3.5 0 0 1-.7 6.8V17a2 2 0 0 1-2 2h-1v-4h1.2" />
+              <path d="M12 5v14" />
+            </svg>
+          </div>
           <div class="feature-content">
             <h3>Recrutement & Analyse</h3>
             <p>Outil pour détecter les profils techs et comprendre les tendances</p>
@@ -87,47 +104,38 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <!-- Custom Tab Navigation -->
     <mat-tab-group
+      class="stats-tabs"
       id="content"
       (selectedTabChange)="changeTab($event)"
       mat-stretch-tabs
       mat-align-tabs="center"
       [(selectedIndex)]="this.currentTab"
       [dynamicHeight]="true"
-      backgroundColor="primary"
     >
-      <div class="row">
-        <div class="col">
-          <mat-tab label="Total de commits">
-            <app-users-table
-              *ngIf="currentTab === 0"
-              [displayedColumns]="displayedColumns"
-              [dataSource]="dataSource"
-            ></app-users-table>
-          </mat-tab>
-        </div>
-        <div class="col">
-          <mat-tab label="Total de contributions(publique)">
-            <app-users-table
-              *ngIf="currentTab === 1"
-              [displayedColumns]="displayedColumns"
-              [dataSource]="dataSource"
-            ></app-users-table>
-          </mat-tab>
-        </div>
+      <mat-tab label="Total de commits">
+        <app-users-table
+          *ngIf="currentTab === 0"
+          [displayedColumns]="displayedColumns"
+          [dataSource]="dataSource"
+        ></app-users-table>
+      </mat-tab>
 
-        <div class="col table-container">
-          <mat-tab label="Total de contributons (publique + privé)">
-            <app-users-table
-              *ngIf="currentTab === 2"
-              [displayedColumns]="displayedColumns"
-              [dataSource]="dataSource"
-            ></app-users-table>
-          </mat-tab>
-        </div>
-      </div>
-      <div></div>
+      <mat-tab label="Contributions publiques">
+        <app-users-table
+          *ngIf="currentTab === 1"
+          [displayedColumns]="displayedColumns"
+          [dataSource]="dataSource"
+        ></app-users-table>
+      </mat-tab>
+
+      <mat-tab label="Contributions totales">
+        <app-users-table
+          *ngIf="currentTab === 2"
+          [displayedColumns]="displayedColumns"
+          [dataSource]="dataSource"
+        ></app-users-table>
+      </mat-tab>
     </mat-tab-group>
   </div>
 
@@ -167,8 +175,6 @@
         </div>
       </div>
     </div>
-    <div>
-      <h3 *ngIf="!isLoading" class="hero-title text-center">Analyse sur {{ userTechnosData.total_repos }} dépôts</h3>
-    </div>
+    <h3 *ngIf="!isLoading" class="analysis-note">Analyse sur {{ userTechnosData.total_repos }} depots</h3>
   </div>
-</div>
+</section>

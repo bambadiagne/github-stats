@@ -1,26 +1,29 @@
-<div>
-  <mat-form-field appearance="standard" class="white-form-field">
-    <mat-label>Rechercher</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher par nom..." #input />
-  </mat-form-field>
-
-  <table mat-table [dataSource]="dataSource" class="w-100">
-    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-      <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
-      <td
-        mat-cell
-        class="font-weight-normal text-reduce"
-        *matCellDef="let element"
-        (click)="getRoute($event)"
-        [innerHTML]="renderColumn(element, column) | sanitizeHtml"
-      ></td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-  <mat-paginator #paginator [pageSizeOptions]="[25, 50, 100]" aria-label="Selectionner une page"></mat-paginator>
-  <div>
-    <p class="h3 text-center" *ngIf="this.dataSource.data.length === 0">Aucun resultat</p>
+<section class="users-table-card">
+  <div class="table-header">
+    <mat-form-field appearance="outline" class="table-filter">
+      <mat-label>Rechercher</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher par nom..." #input />
+    </mat-form-field>
   </div>
-</div>
+
+  <div class="table-scroll">
+    <table mat-table [dataSource]="dataSource" class="stats-table">
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</th>
+        <td
+          mat-cell
+          class="text-reduce"
+          *matCellDef="let element"
+          (click)="getRoute(element)"
+          [innerHTML]="renderColumn(element, column) | sanitizeHtml"
+        ></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <mat-paginator #paginator [pageSizeOptions]="[25, 50, 100]" aria-label="Selectionner une page"></mat-paginator>
+  <p class="empty-state" *ngIf="this.dataSource.data.length === 0">Aucun resultat</p>
+</section>
